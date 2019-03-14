@@ -34,8 +34,7 @@ public class THLinProb<K, V> implements ITablaHash<K, V> {
 			}
 		}
 		
-		Nodo<K> nuevo = new Nodo<K>(key);
-		nuevo.cambiarValor(value);
+		Nodo<K> nuevo = new Nodo<K>(key,value);
 		nuevo.cambiarSiguiente(nodos.darObjeto(i));
 		nodos.cambiarEnPos(i, nuevo);
 		// TODO Auto-generated method stu
