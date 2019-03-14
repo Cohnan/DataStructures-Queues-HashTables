@@ -12,12 +12,19 @@ public class THSepChain<K, V> implements ITablaHash<K, V> {
 		keys = new ArregloDinamico<K>();
 		values = new ArregloDinamico<V>();
 		m = pM;
+		
+		for (int i = 0; i < m; i++) {
+			keys.agregar(null);
+			values.agregar(null);
+		}
+		
+		
 	}
 
 	@Override
 	public Iterator<K> iterator() {
 		// TODO Auto-generated method stub
-		return null;
+		return keys.iterator();
 	}
 
 	@Override
