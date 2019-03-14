@@ -134,7 +134,7 @@ public class Controller {
 	}
 	
 	// TODO
-	public Object requerimiento1(Object o) {
+	public ITablaHash<Integer, VOMovingViolation> requerimiento1(Object o) {
 		return null;
 	}
 	
