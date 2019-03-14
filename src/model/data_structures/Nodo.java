@@ -57,6 +57,10 @@ public class Nodo<T> {
 	public void cambiarValor(Object pValor){
 		value = pValor;
 	}
+	
+	public Object darValor(){
+		return value;
+	}
 
 
 }

@@ -36,18 +36,51 @@ public class THLinProb<K, V> implements ITablaHash<K, V> {
 		
 		Nodo<K> nuevo = new Nodo<K>(key);
 		nuevo.cambiarValor(value);
+		nuevo.cambiarSiguiente(nodos.darObjeto(i));
 		nodos.cambiarEnPos(i, nuevo);
 		// TODO Auto-generated method stu
 	}
 
 	@Override
 	public V get(K key) {
+		
+		int i = hash(key);
+		for(Nodo<K> x = nodos.darObjeto(i);x!=null;x = x.darSiguiente()){
+			if(key.equals(x.darObjeto())){
+				return (V)x.darValor();
+			}
+		}
+		
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public V delete(K key) {
+		
+	int i = hash(key);
+	if(nodos.darObjeto(i).equals(null)) return null;
+	else{
+		
+		Nodo<K> actual = nodos.darObjeto(i);
+		if(actual.equals(key)){
+			nodos.cambiarEnPos(i, actual.darSiguiente());
+		}
+		else{
+			while(actual.darSiguiente()!=null){
+				
+				if(actual.darSiguiente().equals(key)){
+					actual.cambiarSiguiente(actual.darSiguiente().darSiguiente());
+				}
+				
+				actual = actual.darSiguiente();
+			}
+		}
+	}
+		
+		
+		
+		
 		// TODO Auto-generated method stub
 		return null;
 	}
