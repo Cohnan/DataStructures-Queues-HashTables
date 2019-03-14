@@ -14,6 +14,8 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 import model.data_structures.*;
+import model.util.Sort;
+import model.vo.VOMovingViolation;
 import view.MovingViolationsManagerView;
 
 @SuppressWarnings("unused")
@@ -30,6 +32,9 @@ public class Controller {
 	
 	private static int semestreCargado;
 	
+	private THLinProb<Integer, IArregloDinamico<VOMovingViolation>> thLinProb;
+	
+	private THLinProb<Integer, IArregloDinamico<VOMovingViolation>> thSepChain;
 	/*
 	 * Constructor
 	 */
@@ -50,7 +55,7 @@ public class Controller {
 	 * @param n Numero de semestre del anio (entre 1 y 2)
 	 * @return Cola con el numero de datos cargados por mes del semestre
 	 */
-	public IArregloDinamico<Integer> loadMovingViolations(int n)
+	private IArregloDinamico<Integer> loadMovingViolations(int n)
 	{
 		IArregloDinamico<Integer> numeroDeCargas = new ArregloDinamico<>();
 		if(n == 1)
@@ -133,9 +138,26 @@ public class Controller {
 		return numeroDeCargas;
 	}
 	
-	// TODO
-	public ITablaHash<Integer, VOMovingViolation> requerimiento1(Object o) {
-		return null;
+	/**
+	 * TODO
+	 * @param addressId
+	 * @return
+	 */
+	public IArregloDinamico<VOMovingViolation> requerimiento1a(int addressId) {
+		IArregloDinamico<VOMovingViolation> respuesta = thLinProb.get(addressId);
+		Sort.ordenarShellSort(respuesta, new VOMovingViolation.TicketIssueOrder());
+		return respuesta;
+	}
+	
+	/**
+	 * TODO
+	 * @param addressId
+	 * @return
+	 */
+	public IArregloDinamico<VOMovingViolation> requerimiento1b(int addressId) {
+		IArregloDinamico<VOMovingViolation> respuesta = thSepChain.get(addressId);
+		Sort.ordenarShellSort(respuesta, new VOMovingViolation.TicketIssueOrder());
+		return respuesta;
 	}
 	
 	public void run() {
@@ -160,11 +182,13 @@ public class Controller {
 				break;
 
 			case 1:
-				// Requerimiento 1
-				// TODO
-				view.printMovingViolationsReq1(requerimiento1(null));
+				// Requerimiento 1a
+				view.printMovingViolationsReq1(requerimiento1a(sc.nextInt()));
 				break;
-
+			case 2:
+				// Requerimiento 1a
+				view.printMovingViolationsReq1(requerimiento1b(sc.nextInt()));
+				break;
 			case 10:	
 				fin=true;
 				sc.close();
