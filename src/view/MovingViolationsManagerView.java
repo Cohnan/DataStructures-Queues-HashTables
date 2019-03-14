@@ -12,7 +12,8 @@ public class MovingViolationsManagerView
 		System.out.println("---------ISIS 1206 - Estructuras de datos----------");
 		System.out.println("---------------------Taller 6----------------------");
 		System.out.println("0. Cargar datos de infracciones en movimiento");
-		System.out.println("1. Requerimiento 1");
+		System.out.println("1. Requerimiento 1a");
+		System.out.println("1. Requerimiento 1b");
 		System.out.println("10. Cerrar programa");
 		System.out.println("Digite el numero de opcion para ejecutar la tarea, luego presione enter: (Ej., 1):");
 		
@@ -35,7 +36,7 @@ public class MovingViolationsManagerView
 		System.out.println("Total Infracciones Semestre: " + totalInfracciones);
 	}
 	/**
-	 *Imprime el requerimiento 1A - TODO 
+	 *Imprime el requerimiento 1 - TODO 
 	 * @param TODO
 	 */
 	public void printMovingViolationsReq1(Object resultados1) {
