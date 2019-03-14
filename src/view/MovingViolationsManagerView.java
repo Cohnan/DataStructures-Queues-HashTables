@@ -13,7 +13,7 @@ public class MovingViolationsManagerView
 		System.out.println("---------------------Taller 6----------------------");
 		System.out.println("0. Cargar datos de infracciones en movimiento");
 		System.out.println("1. Requerimiento 1a");
-		System.out.println("1. Requerimiento 1b");
+		System.out.println("2. Requerimiento 1b");
 		System.out.println("10. Cerrar programa");
 		System.out.println("Digite el numero de opcion para ejecutar la tarea, luego presione enter: (Ej., 1):");
 		
