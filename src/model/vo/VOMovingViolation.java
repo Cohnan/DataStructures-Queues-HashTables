@@ -157,7 +157,7 @@ public class VOMovingViolation {
 	}
 	
 	public static void main(String[] args) {
-		String json = "{\n" + 
+		String json = "      {\n" + 
 				"		\"OBJECTID\": 14476381,\n" + 
 				"		\"ROW_\": null,\n" + 
 				"		\"LOCATION\": \"1400 BLK S CAPITOL ST SE N/B\",\n" + 

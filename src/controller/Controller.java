@@ -1,5 +1,7 @@
 package controller;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.Instant;
@@ -10,8 +12,11 @@ import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
+
+import com.google.gson.Gson;
 
 import model.data_structures.*;
 import model.util.Sort;
@@ -24,24 +29,28 @@ public class Controller {
 	/*
 	 * Atributos
 	 */
-	public static final String[] movingViolationsFilePaths = new String[] {"data/Moving_Violations_Issued_in_January_2018.csv", "data/Moving_Violations_Issued_in_February_2018.csv", "data/Moving_Violations_Issued_in_March_2018.csv","data/Moving_Violations_Issued_in_April_2018.csv"};
+	public static final String[] movingViolationsFilePaths = new String[] {"data/Moving_Violations_Issued_in_January_2018.json", "data/Moving_Violations_Issued_in_February_2018.json", "data/Moving_Violations_Issued_in_March_2018.json","data/Moving_Violations_Issued_in_April_2018.json"};
 
 	private static MovingViolationsManagerView view;
 
-	private static IArregloDinamico<VOMovingViolation> movingVOLista;
+	//private static IArregloDinamico<VOMovingViolation> movingVOLista;
 	
 	private static int semestreCargado;
 	
-	private THLinProb<Integer, IArregloDinamico<VOMovingViolation>> thLinProb;
+	private static THLinProb<Integer, IArregloDinamico<VOMovingViolation>> thLinProb;
 	
-	private THLinProb<Integer, IArregloDinamico<VOMovingViolation>> thSepChain;
+	private static THSepChain<Integer, IArregloDinamico<VOMovingViolation>> thSepChain;
+	
+	private static HashMap<Integer, IArregloDinamico<VOMovingViolation>> prueba;
 	/*
 	 * Constructor
 	 */
 	public Controller() {
 		view = new MovingViolationsManagerView();
 
-		movingVOLista = null;
+		thLinProb = null;
+		thSepChain = null;
+		prueba = null;
 	}
 	
 	/*
@@ -60,9 +69,9 @@ public class Controller {
 		IArregloDinamico<Integer> numeroDeCargas = new ArregloDinamico<>();
 		if(n == 1)
 		{
-			numeroDeCargas = loadMovingViolations(new String[] {"Moving_Violations_Issued_in_January_2018.csv", 
-					    	     "Moving_Violations_Issued_in_February_2018.json",
-					    	     "Moving_Violations_Issued_in_March_2018.json",
+			numeroDeCargas = loadMovingViolations(new String[] {"Moving_Violations_Issued_in_January_2018.json", 
+					    	     //"Moving_Violations_Issued_in_February_2018.json",
+					    	     //"Moving_Violations_Issued_in_March_2018.json",
 					    	     "Moving_Violations_Issued_in_April_2018.json",
 					    	     "Moving_Violations_Issued_in_May_2018.json",
 					    	     "Moving_Violations_Issued_in_June_2018.json"
@@ -86,7 +95,69 @@ public class Controller {
 		}
 		return numeroDeCargas;
 	}
+	
+	private class JReader implements Iterable<String> { // TODO STATIC?
+		private BufferedReader bufReader;
+		private int lastReadChar;
+		
+		public JReader(File file) throws IOException {
+			bufReader = new BufferedReader(new FileReader(file));
+			while (bufReader.read() == '[');
+			lastReadChar = bufReader.read();
+		}
+		
+		public String next2() {
+			// Assume last read char was a ',' o ']'
+			if (lastReadChar == ']') {
+				System.out.println("Nunca deberia llegar a aca si usa hasNext()");
+				return null;
+			}
+			// Si fue una coma, busco el siguiente '{'
+			while (read()!= '{');
+			
+			StringBuilder jsonText = new StringBuilder();
+			jsonText.append((char) '{');
+			lastReadChar = read();
+			
+			while (lastReadChar != '}') { 
+				jsonText.append((char) lastReadChar);
+				lastReadChar = read();
+			} jsonText.append('}');
+			
+			// Invariant: find the next ']' or ','
+			while (lastReadChar != ']' && lastReadChar != ',') lastReadChar = read(); 
+			
+			//System.out.println("Analizando : " + jsonText.toString());
+			return jsonText.toString();
+		}
+		
+		private int read() { // TODO mejorar
+			try {
+				return bufReader.read();
+			} catch (IOException e) {
+				e.printStackTrace();
+				lastReadChar = ']';
+				return ']';
+			}
+		}
+		
+		
+		public void close() throws IOException {
+			bufReader.close();
+		}
 
+		@Override
+		public Iterator<String> iterator() {
+			return new Iterator<String>() {
+				public boolean hasNext() {
+					System.out.println("Entro a hasNext leyendo el caracter '" + (char)(lastReadChar) + "'");
+					return lastReadChar != ']' && lastReadChar != -1;
+				}
+				public String next() {return next2();}
+			};
+		}
+	}
+	
 	/**
 	 * Metodo ayudante
 	 * Carga la informacion sobre infracciones de los archivos a una pila y una cola ordenadas por fecha.
@@ -95,31 +166,41 @@ public class Controller {
 	 */
 	private IArregloDinamico<Integer> loadMovingViolations(String[] movingViolationsFilePaths){
 		// TODO
-		CSVReader reader = null;
-		IQueue<Integer> numeroDeCargas =new Queue<>();
+		JReader reader = null;
+		Gson gson = new Gson();
+		VOMovingViolation infraccionAct;
+		IArregloDinamico<VOMovingViolation> valorAct;
+		
+		IArregloDinamico<Integer> numeroDeCargas = new ArregloDinamico<>();
 		
 		int contadorInf; // Cuenta numero de infracciones en cada archivo
 		try {
-			movingVOLista = new ArregloDinamico<VOMovingViolations>(500000);
+			thLinProb = new THLinProb<Integer, IArregloDinamico<VOMovingViolation>>(500000); // TODO quitar comentario
+			thSepChain = new THSepChain<Integer, IArregloDinamico<VOMovingViolation>>(500000); // TODO quitar comentario
 
 			for (String filePath : movingViolationsFilePaths) {
-				reader = new CSVReader(new FileReader("data/"+filePath));
-				
+				reader = new JReader(new File("data/"+filePath));
 				contadorInf = 0;
-				// Deduce las posiciones de las columnas que se reconocen de acuerdo al header
-				String[] headers = reader.readNext();
-				int[] posiciones = new int[VOMovingViolations.EXPECTEDHEADERS.length];
-				for (int i = 0; i < VOMovingViolations.EXPECTEDHEADERS.length; i++) {
-					posiciones[i] = buscarArray(headers, VOMovingViolations.EXPECTEDHEADERS[i]);
-				}
 				
 				// Lee linea a linea el archivo para crear las infracciones y cargarlas a la lista
-				for (String[] row : reader) {
-					movingVOLista.agregar(new VOMovingViolations(posiciones, row));
+				for (String json : reader) {
+					// Crear infraccion dado el json actual
+					infraccionAct = gson.fromJson(json, VOMovingViolation.class);
+					
+					// Agregar esta infraccion a las hash tables, asegurandose de no reescribir
+					valorAct = thLinProb.get(infraccionAct.getAddressID()); // El mismo para ambas tablas 
+					if(valorAct == null) {
+						valorAct = new ArregloDinamico<VOMovingViolation>();
+					}
+					valorAct.agregar(infraccionAct);
+					
+					thLinProb.put(infraccionAct.getAddressID(), valorAct); // TODO esta linea sobra o es necesaria?
+					thSepChain.put(infraccionAct.getAddressID(), valorAct); // Esta linea sobra o es necesaria
+					
 					contadorInf += 1;
 				}
 				// Se agrega el numero de infracciones cargadas en este archivo al resultado 
-				numeroDeCargas.enqueue(contadorInf);
+				numeroDeCargas.agregar(contadorInf);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -133,7 +214,6 @@ public class Controller {
 					return null;
 				}
 			}
-
 		}
 		return numeroDeCargas;
 	}

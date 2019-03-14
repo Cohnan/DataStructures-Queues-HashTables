@@ -3,6 +3,10 @@ package model.data_structures;
 import java.util.Iterator;
 
 public class THSepChain<K, V> implements ITablaHash<K, V> {
+	
+	public THSepChain (int m){
+		
+	}
 
 	@Override
 	public Iterator<K> iterator() {

@@ -4,6 +4,10 @@ import java.util.Iterator;
 
 public class THLinProb<K, V> implements ITablaHash<K, V> {
 
+	public THLinProb (int m) {
+		
+	}
+	
 	@Override
 	public Iterator<K> iterator() {
 		// TODO Auto-generated method stub
