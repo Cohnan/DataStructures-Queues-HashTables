@@ -158,7 +158,7 @@ public class VOMovingViolation {
 	
 	
 	
-	
+	@Override
 	public int hashCode(){
 		return getAddressID();
 	}
