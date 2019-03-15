@@ -99,5 +99,9 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 		
 		
 	}
+	
+	public int darTamano(){
+		return n;
+	}
 
 }

@@ -15,7 +15,6 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 		keys = (K[]) new Object[m];
 		values = (V[]) new Object[m];
 		n = 0;
-		
 	}
 
 	@Override
@@ -26,7 +25,6 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 
 	@Override
 	public void put(K key, V value) {
-	
 		boolean existe = false;
 		int i;
 		for(i = hash(key); keys[i] !=null;i = (i+1)%m){
@@ -87,6 +85,10 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 	}
 		
 		
+	}
+	
+	public int darTamano(){
+		return n;
 	}
 
 }
