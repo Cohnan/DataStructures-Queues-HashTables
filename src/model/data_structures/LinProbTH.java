@@ -20,6 +20,23 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 	@Override
 	public Iterator<K> iterator() {
 		// TODO Auto-generated method stub
+//		return new Iterator<K>() {
+		//
+//					private Nodo<K> current = null;
+		//
+//					@Override
+//					public boolean hasNext() {
+//						return current != null;
+//					}
+		//
+//					@Override
+//					public T next() {
+//						T dato = current.darObjeto();
+//						current = current.darSiguiente();
+//						return dato;
+//					}
+//				};
+		
 		return null;
 	}
 
