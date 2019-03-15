@@ -76,9 +76,7 @@ public class THLinProb<K, V> implements ITablaHash<K, V> {
 			}
 		}
 	}
-		
-		
-		
+				
 		
 		// TODO Auto-generated method stub
 		return null;

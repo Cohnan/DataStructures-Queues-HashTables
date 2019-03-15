@@ -156,6 +156,13 @@ public class VOMovingViolation {
 		}
 	}
 	
+	
+	
+	
+	public int hashCode(){
+		return getAddressID();
+	}
+	
 	public static void main(String[] args) {
 		String json = "      {\n" + 
 				"		\"OBJECTID\": 14476381,\n" + 
