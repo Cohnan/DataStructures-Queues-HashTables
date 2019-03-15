@@ -37,9 +37,9 @@ public class Controller {
 	
 	private static int semestreCargado;
 	
-	private static THLinProb<Integer, IArregloDinamico<VOMovingViolation>> thLinProb;
+	private static LinProbTH<Integer, IArregloDinamico<VOMovingViolation>> thLinProb;
 	
-	private static THSepChain<Integer, IArregloDinamico<VOMovingViolation>> thSepChain;
+	private static SepChainTH<Integer, IArregloDinamico<VOMovingViolation>> thSepChain;
 	
 	private static HashMap<Integer, IArregloDinamico<VOMovingViolation>> prueba;
 	/*
@@ -175,8 +175,8 @@ public class Controller {
 		
 		int contadorInf; // Cuenta numero de infracciones en cada archivo
 		try {
-			thLinProb = new THLinProb<Integer, IArregloDinamico<VOMovingViolation>>(500000); // TODO quitar comentario
-			thSepChain = new THSepChain<Integer, IArregloDinamico<VOMovingViolation>>(500000); // TODO quitar comentario
+			thLinProb = new LinProbTH<Integer, IArregloDinamico<VOMovingViolation>>(500000); // TODO quitar comentario
+			thSepChain = new SepChainTH<Integer, IArregloDinamico<VOMovingViolation>>(500000); // TODO quitar comentario
 
 			for (String filePath : movingViolationsFilePaths) {
 				reader = new JReader(new File("data/"+filePath));

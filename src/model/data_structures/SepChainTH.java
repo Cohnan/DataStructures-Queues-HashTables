@@ -2,19 +2,14 @@ package model.data_structures;
 
 import java.util.Iterator;
 
-public class THLinProb<K, V> implements ITablaHash<K, V> {
+public class SepChainTH<K, V> implements ITablaHash<K, V> {
 
-	private IArregloDinamico<Nodo<K>> nodos;
+	private Nodo<K>[] nodos;
 	private int m;
 	
-	public THLinProb (int pM) {
-		nodos = new ArregloDinamico<Nodo<K>>();
-		m = pM;
-		for (int i = 0; i < m; i++) {
-			nodos.agregar(null);
-		}
-		
-		
+	public SepChainTH (int pM) {
+		m = pM;		
+		nodos = (Nodo<K>[]) new Nodo[m];
 	}
 	
 	@Override
@@ -27,16 +22,15 @@ public class THLinProb<K, V> implements ITablaHash<K, V> {
 	public void put(K key, V value) {
 	
 		int i = hash(key);
-		for(Nodo<K> x = nodos.darObjeto(i);x!=null;x = x.darSiguiente()){
+		for(Nodo<K> x = nodos[i];x!=null;x = x.darSiguiente()){
 			if(key.equals(x.darObjeto())){
 			x.cambiarValor(value);
 			return;
 			}
 		}
 		
-		Nodo<K> nuevo = new Nodo<K>(key,value);
-		nuevo.cambiarSiguiente(nodos.darObjeto(i));
-		nodos.cambiarEnPos(i, nuevo);
+		nodos[i] = new Nodo<K>(key, value);
+
 		// TODO Auto-generated method stu
 	}
 
@@ -44,7 +38,7 @@ public class THLinProb<K, V> implements ITablaHash<K, V> {
 	public V get(K key) {
 		
 		int i = hash(key);
-		for(Nodo<K> x = nodos.darObjeto(i);x!=null;x = x.darSiguiente()){
+		for(Nodo<K> x = nodos[i];x!=null;x = x.darSiguiente()){
 			if(key.equals(x.darObjeto())){
 				return (V)x.darValor();
 			}
@@ -58,12 +52,12 @@ public class THLinProb<K, V> implements ITablaHash<K, V> {
 	public V delete(K key) {
 		
 	int i = hash(key);
-	if(nodos.darObjeto(i).equals(null)) return null;
+	if(nodos[i].equals(null)) return null;
 	else{
 		
-		Nodo<K> actual = nodos.darObjeto(i);
+		Nodo<K> actual = nodos[i];
 		if(actual.equals(key)){
-			nodos.cambiarEnPos(i, actual.darSiguiente());
+			nodos[i] = actual.darSiguiente();
 		}
 		else{
 			while(actual.darSiguiente()!=null){
