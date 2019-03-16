@@ -48,8 +48,11 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 	@Override
 	public void put(K key, V value) {
 		boolean existe = false;
+		
+		if ((n + 1.) / m > 0.75) rehash(2 * m); // Cambiado de lugar //TODO cambiar por algun primo
+		
 		int i;
-		for(i = hash(key); keys[i] !=null;i = (i+1)%m){
+		for(i = hash(key); keys[i] !=null; i = (i+1)%m){
 			if(keys[i].equals(key)){
 				existe = true;
 				break;
@@ -57,7 +60,7 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 		}
 
 		if(!existe)n++;
-		rehash();
+		
 		keys[i] = key;
 		values[i] = value;
 		// TODO Auto-generated method stub	
@@ -99,8 +102,8 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 		//SE PUEDE HACER MEJOR PERO NO SUPE COMO
 	}
 
-	private void rehash(){
-		if(n/m>0.75){
+	private void rehash(int newM){
+		
 			Queue<K> llaves = new Queue<>();
 			Queue<V> valores = new Queue<>();
 			int contador =0;
@@ -109,15 +112,18 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 					llaves.enqueue(keys[i]);
 					valores.enqueue(values[i]);
 					contador ++;
-					delete(keys[i]);
+					//delete(keys[i]);  // Cambiado
 				}
 			}
 			
-			LinProbTH<K, V> nueva = new LinProbTH<>(m*2);
+			LinProbTH<K, V> nueva = new LinProbTH<>(newM); 
 			for (int i = 0; i < llaves.size(); i++) {
 				nueva.put(llaves.dequeue(), valores.dequeue());
 			}
-		}
+			// Cambiado: no se estaba haciendo nada con esta nueva lista hasta aca, asi que se agregaron las siguientes 3 lineas
+			this.keys = nueva.keys;
+			this.values = nueva.values;
+			this.m = newM;
 	}
 
 	public int darTamano(){

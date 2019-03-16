@@ -22,9 +22,9 @@ public class THLinProbTest extends TestCase {
 	private void setUpEscenario(int n, int max) {
 		// En caso de no especificarse un tamanio inicial para la tabla, se elige n/2, 
 		// donde n es el numero de elementos a agregar
-		if (max == -1) max = n/2;
+		if (max == -1) max = (n+1)/2;
 		
-		tabla = new SepChainTH<String, Integer>(max); // TODO Unica linea a modificar para cambiar tabla en test
+		tabla = new LinProbTH<String, Integer>(max); // TODO Unica linea a modificar para cambiar tabla en test
 		for (int i = 0; i < n; i++) {
 			tabla.put("Elemento " + i, i);
 		}
@@ -85,12 +85,12 @@ public class THLinProbTest extends TestCase {
 			for (Integer tamano : tamanosInic) {
 				setUpEscenario(n, tamano);		
 				// Obtener los elementos
-				Integer dato;
+				Integer valor;
 				for (int i = 0; i < n; i++) {
-					dato = tabla.get("Elemento " + i);
+					valor = tabla.get("Elemento " + i);
 					// Verificar que el objeto es el esperado
 					assertTrue("Escenario: " + n + " de tamanio " + tamano + ". El dato esperado era: " + i
-							+ ", pero se obtuvo " + dato, dato.equals(i));
+							+ ", pero se obtuvo " + (valor != null? "nulo": valor), valor != null && valor.equals(i));
 					// Verificar que no ha cambiado el tamano del arreglo
 					assertTrue("Escenario: " + n + " de tamanio " + tamano + ". El arreglo deberia tener " + n + " elementos."
 							+ " Pero tiene " + tabla.darTamano(), tabla.darTamano() == n);
@@ -117,7 +117,7 @@ public class THLinProbTest extends TestCase {
 				// Comprobar que el elemento fue agregado
 				valor = tabla.get("Nuevo elemento " + i);
 				assertTrue("Escenario: " + n + ". Se espera que al conseguir el elemento recien colocado se obtenga " + i + 
-						", pero se obtiene " + (valor != null? "nulo": valor), valor == i);
+						", pero se obtiene " + (valor != null? "nulo": valor), valor != null && valor.equals(i));
 			}
 			// Comprobar que el tamanio de la tabla es el esperado
 			assertTrue("Escenario: " + n + ". El arreglo deberia tener " + (n + nAgregar) + " elementos."
