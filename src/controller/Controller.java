@@ -96,7 +96,7 @@ public class Controller {
 		return numeroDeCargas;
 	}
 	
-	private class JReader implements Iterable<String> { // TODO STATIC?
+	private class JReader implements Iterable<String> {
 		private BufferedReader bufReader;
 		private int lastReadChar;
 		
@@ -106,7 +106,7 @@ public class Controller {
 			lastReadChar = bufReader.read();
 		}
 		
-		public String next2() {
+		public String readJson() {
 			// Assume last read char was a ',' o ']'
 			if (lastReadChar == ']') {
 				System.out.println("Nunca deberia llegar a aca si usa hasNext()");
@@ -124,7 +124,7 @@ public class Controller {
 				lastReadChar = read();
 			} jsonText.append('}');
 			
-			// Invariant: find the next ']' or ','
+			// To satisfy Invariant: find the next ']' or ','
 			while (lastReadChar != ']' && lastReadChar != ',') lastReadChar = read(); 
 			
 			//System.out.println("Analizando : " + jsonText.toString());
@@ -153,7 +153,7 @@ public class Controller {
 					//System.out.println("Entro a hasNext leyendo el caracter '" + (char)(lastReadChar) + "'");
 					return lastReadChar != ']' && lastReadChar != -1;
 				}
-				public String next() {return next2();}
+				public String next() {return readJson();}
 			};
 		}
 	}
