@@ -1,6 +1,7 @@
 package view;
 
 import model.data_structures.IArregloDinamico;
+import model.vo.VOMovingViolation;
 
 public class MovingViolationsManagerView 
 {
@@ -39,9 +40,19 @@ public class MovingViolationsManagerView
 	 *Imprime el requerimiento 1 - TODO 
 	 * @param TODO
 	 */
-	public void printMovingViolationsReq1(Object resultados1) {
-		// TODO
-		System.out.println("Dar datos necesarios para requerimiento 1: ");
-		System.out.println("Resultados requerimiento 1");
+	public void printMovingViolationsReq1(IArregloDinamico<VOMovingViolation> resultados1) {
+		System.out.println("Las infracciones que ocurrieron en esa direccion y que terminaron en accidente son:");
+		
+		if (resultados1.darTamano() == 0) System.out.println("No ocurrieron infracciones con accidente en esa direccion.");
+		
+		for (VOMovingViolation infraccion : resultados1) {
+			System.out.println("ObjectID: " + infraccion.getObjectId() + 
+					"\tTicket Date: " + infraccion.getTicketIssueDate());
+		}
+		System.out.println();
+	}
+
+	public void printMessage(String mensaje) {
+		System.out.println(mensaje);		
 	}
 }

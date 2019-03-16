@@ -31,6 +31,7 @@ public class Sort {
 	 */
 
 	public static <T> void ordenarShellSort(IArregloDinamico<T> datos, Comparator<T> c) {
+		if (datos.darTamano() == 0) return;
 		// Esta es una implementacion hecha con el proposito de entender shellsort, que permite
 		// el uso de diferentes secuencias con facilidad. La unica diferencia en uso de recursos
 		// de esta implementacion es la creacion de la secuencia y su guardado en memoria, algo minimo.
@@ -78,7 +79,7 @@ public class Sort {
 	 * @param movingViolationsQueue - conjunto de datos a ordenar (inicio) y conjunto de datos ordenados (final)
 	 */
 	public static <T> void ordenarMergeSort(IArregloDinamico<T> datos, Comparator<T> comparator ) {
-		
+		if (datos.darTamano() == 0) return;
 		//Bottom - Up
 		int N = datos.darTamano();
 		//Se crea un arreglo auxiliar
@@ -139,6 +140,7 @@ public class Sort {
 	 * @param datos - conjunto de datos a ordenar (inicio) y conjunto de datos ordenados (final)
 	 */
 	public static <T> void ordenarQuickSort(IArregloDinamico<T> datos, Comparator<T> c) {
+		if (datos.darTamano() == 0) return;
 		// Desordenar: basado shuffle() de la libreria StdRandom del libro
 		shuffle(datos);
 		ordenarQuickSort(datos, 0, datos.darTamano()-1, c);

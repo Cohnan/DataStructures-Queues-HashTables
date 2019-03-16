@@ -70,8 +70,8 @@ public class Controller {
 		if(n == 1)
 		{
 			numeroDeCargas = loadMovingViolations(new String[] {"Moving_Violations_Issued_in_January_2018.json", 
-					    	     //"Moving_Violations_Issued_in_February_2018.json",
-					    	     //"Moving_Violations_Issued_in_March_2018.json",
+					    	     "Moving_Violations_Issued_in_February_2018.json",
+					    	     "Moving_Violations_Issued_in_March_2018.json",
 					    	     //"Moving_Violations_Issued_in_April_2018.json",
 					    	     //"Moving_Violations_Issued_in_May_2018.json",
 					    	     //"Moving_Violations_Issued_in_June_2018.json"
@@ -224,7 +224,13 @@ public class Controller {
 	 * @return
 	 */
 	public IArregloDinamico<VOMovingViolation> requerimiento1a(int addressId) {
-		IArregloDinamico<VOMovingViolation> respuesta = thLinProb.get(addressId);
+		IArregloDinamico<VOMovingViolation> general = thLinProb.get(addressId);
+		IArregloDinamico<VOMovingViolation> respuesta = new ArregloDinamico<VOMovingViolation>();
+		
+		for (VOMovingViolation infraccion : general) {
+			if (infraccion.getAccidentIndicator()) respuesta.agregar(infraccion);
+		}
+		
 		Sort.ordenarShellSort(respuesta, new VOMovingViolation.TicketIssueOrder());
 		return respuesta;
 	}
@@ -235,7 +241,13 @@ public class Controller {
 	 * @return
 	 */
 	public IArregloDinamico<VOMovingViolation> requerimiento1b(int addressId) {
-		IArregloDinamico<VOMovingViolation> respuesta = thSepChain.get(addressId);
+		IArregloDinamico<VOMovingViolation> general = thSepChain.get(addressId);
+		IArregloDinamico<VOMovingViolation> respuesta = new ArregloDinamico<VOMovingViolation>();
+		
+		for (VOMovingViolation infraccion : general) {
+			if (infraccion.getAccidentIndicator()) respuesta.agregar(infraccion);
+		}
+		
 		Sort.ordenarShellSort(respuesta, new VOMovingViolation.TicketIssueOrder());
 		return respuesta;
 	}
@@ -258,15 +270,17 @@ public class Controller {
 			{
 			case 0:
 				// Cargar infracciones
-				view.printMovingViolationsLoadInfo(this.loadMovingViolations(1));
+				view.printMovingViolationsLoadInfo(this.loadMovingViolations());
 				break;
 
 			case 1:
 				// Requerimiento 1a
+				view.printMessage("Ingrese un AddressID: ");
 				view.printMovingViolationsReq1(requerimiento1a(sc.nextInt()));
 				break;
 			case 2:
-				// Requerimiento 1a
+				// Requerimiento 1b
+				view.printMessage("Ingrese un AddressID: ");
 				view.printMovingViolationsReq1(requerimiento1b(sc.nextInt()));
 				break;
 			case 10:	

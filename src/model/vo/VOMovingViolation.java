@@ -60,7 +60,7 @@ public class VOMovingViolation {
 	/**
 	 * @return id - Identificador único de la infracción
 	 */
-	public String objectId() {
+	public String getObjectId() {
 		return OBJECTID;
 	}	
 
