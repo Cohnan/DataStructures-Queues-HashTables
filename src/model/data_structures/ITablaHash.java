@@ -7,4 +7,6 @@ public interface ITablaHash<K, V> extends Iterable<K> {
 	V get(K key);
 	
 	V delete(K key);
+	
+	int darTamano();
 }
