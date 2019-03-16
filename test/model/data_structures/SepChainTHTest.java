@@ -1,21 +1,18 @@
 package model.data_structures;
 
-import junit.framework.TestCase;
-import model.data_structures.*;
+import static org.junit.Assert.*;
 
-public class THLinProbTest extends TestCase {
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+public class SepChainTHTest {
 	/*
 	 * Atributos 
 	 */
 	private ITablaHash<String, Integer> tabla;
 	private final int numeroEscenarios = 100;
 	private final int tamanoMax = 100;
-	//private int defaultSize = (n+1)/2;
 	
-	//int nEscenariosEliminar = numeroEscenarios/10; // Numero de escenarios en los que se probara el metodo
-	//int nEscenariosObtener = numeroEscenarios/10; // Maximo numero de escenarios enlos que probara el metodo obtener
-	//int nEscenariosCambiar = numeroEscenarios/10; // Maximo numero de escenarios enlos que probara el metodo cambiar
-
 	/*
 	 * Escenarios
 	 */
@@ -25,7 +22,7 @@ public class THLinProbTest extends TestCase {
 		// donde n es el numero de elementos a agregar
 		if (max == -1) max = (n+1)/2;
 		
-		tabla = new LinProbTH<String, Integer>(max); // TODO Unica linea a modificar para cambiar tabla en test
+		tabla = new SepChainTH<String, Integer>(max); // TODO Unica linea a modificar para cambiar tabla en test
 		for (int i = 0; i < n; i++) {
 			tabla.put("Elemento " + i, i);
 		}
@@ -37,7 +34,9 @@ public class THLinProbTest extends TestCase {
 	/**
 	 * Prueba el constructor con diferentes tamanios iniciales para cada escenario. Asume que darTamano() funciona correctamente
 	 */
-	public void testConstructor() {
+
+	@Test
+	public void testLinProbTH() {
 		for (int n = 1; n < numeroEscenarios; n++) {
 			setUpEscenario(n, 1);
 			assertTrue("Escenario: " + n + " con tamanio inicial 1. El arreglo deberia tener tamano " + n, tabla.darTamano() == n);
@@ -56,6 +55,7 @@ public class THLinProbTest extends TestCase {
 	/**
 	 * Prueba el metodo darTamano()
 	 */
+	@Test
 	public void testDarTamano() {
 		for (int n = 1; n <= numeroEscenarios; n++) {
 			setUpEscenario(n, -1);
@@ -83,6 +83,7 @@ public class THLinProbTest extends TestCase {
 	/**
 	 * Prueba el metodo get(). Asume que darTamano() funciona correctamente
 	 */
+	@Test
 	public void testGet() {
 		Integer[] tamanosInic = new Integer[] {-1, 1, 10, tamanoMax};// Arreglo con los tamanos iniciales de las tablas para cada escenario
 		for (int n = 1; n <= numeroEscenarios; n++) {	
@@ -111,6 +112,7 @@ public class THLinProbTest extends TestCase {
 	/**
 	 * Prueba el metodo put. Asume que el metodo get() funciona correctamente
 	 */
+	@Test
 	public void testPut() {
 		int nAgregar;
 		Integer valor;
