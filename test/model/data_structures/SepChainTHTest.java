@@ -154,17 +154,52 @@ public class SepChainTHTest {
 		}
 	}
 	
+	
+	/**
+	 * Prueba el metodo delete()
+	 */
+	@Test
+	public void testDelete() {
+		int nEliminar;
+		Integer valor;
+		int nEliminados;
+		
+		for (int n = 1; n <= numeroEscenarios; n++) {
+			setUpEscenario(n, -1);
+			nEliminar = n;
+			nEliminados = 0;
+			
+			// Eliminar nEliminar elementos
+			for (int i = 0; i < nEliminar; i++) {
+				valor = tabla.delete("Elemento " + i);
+						
+				// Verificar que se elimino el elemento correcto
+				assertTrue("Escenario: " + n + ". El dato esperado era: " + i
+						+ ", pero se obtuvo " + (valor != null? "nulo": valor), valor != null && valor.equals(i));
+				nEliminados += 1;
+				
+				// Comprobar que el total de elementos disminuye en 1
+				assertTrue("Escenario: " + n + ". El arreglo deberia tener " + (n - nEliminados) + " elementos."
+						+ " Pero tiene " + tabla.darTamano(), tabla.darTamano() == (n - nEliminados));
+			}
+			System.out.println("delete() funciona para el escenario " + n + ", eliminando todos los elementos.");			
+		}
+	}
+	
 	/**
 	 * Prueba el metodo iterator().
 	 */
+	@Test
 	public void testIterator() {
-		int n = numeroEscenarios;
-		boolean[] elementosVistos = new boolean[n]; // Inicializado en false
+		int n = numeroEscenarios; // Realiza el test solo para un numero grande, con diferentes constructores
+		boolean[] elementosVistos; // Inicializado en false
 		int llaveAct;
-		int totalVistos = 0;
+		int totalVistos;
 		
 		for (Integer inic : new Integer[]{-1, 1, 10, tamanoMax}){
 			setUpEscenario(n, inic);
+			elementosVistos = new boolean[n];
+			totalVistos = 0;
 			
 			for(String llave: tabla) {
 				// Cada elemento de la tabla es de la forma "Elemento i" : i, asi que aprovechamos esto para numerarlos por i				
@@ -177,11 +212,11 @@ public class SepChainTHTest {
 				} else {
 					totalVistos += 1;
 					elementosVistos[llaveAct] = true;
-				}
-				
-				// Comprobar que se vieron todas las llaves (exactamente una vez)
-				assertTrue("Escenario: " + n + ", " + inic + ". Deberian haberse encontrado " + n + " llaves, pero se encontraron " + totalVistos, totalVistos == n);
+				}				
 			}
+			// Comprobar que se vieron todas las llaves (exactamente una vez)
+			assertTrue("Escenario: " + n + ", " + inic + ". Deberian haberse encontrado " + n + " llaves, pero se encontraron " + totalVistos, totalVistos == n);
 		}
+		System.out.println("iterator() funciona para el escenario " + n + "");
 	}
 }

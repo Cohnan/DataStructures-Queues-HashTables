@@ -21,25 +21,17 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 	@Override
 	public Iterator<K> iterator() {
 		return new Iterator<K>() {
-			int iActual = 0;
+			int iActual = siguienteNoNulo(0); // Guarda el indice del elemento a devolver -1 si no hay mas
 			@Override
 			public boolean hasNext() {
-				if (iActual>=n) return false;
-				return true;
+				return (iActual != -1);
 			}
 			@Override
 			public K next() {
-
-				if(iActual>=n){
-					return null;
-				}
-				while(iActual<=m){
-					iActual++;
-					if(keys[iActual]!=null){
-						return keys[iActual];
-					}
-				}
-				return null;				
+				if (iActual == -1) return null;
+				K llaveAct = keys[iActual];
+				iActual = siguienteNoNulo(iActual + 1);
+				return llaveAct;
 			}
 		};
 
@@ -87,7 +79,10 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 				//No estoy seguro
 				V auxiliar = values[i];
 				values[i] = null;
-				n--;
+				n--;		
+				
+				//if (n/m <= 0.25 && m >= 2) rehash(m/2); // Evita que quede muy vacia
+				
 				return auxiliar;
 			}
 		}
@@ -115,5 +110,17 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 
 	public int darTamano(){
 		return n;
+	}
+	
+	/**
+	 * Busca el siguiente indice de la lista que no sea nula a partir y contando i
+	 * @param i Se asume entre 0 y m-1
+	 * @return El siguiente indice no nulo
+	 */
+	private int siguienteNoNulo(int i) {
+		if (i >= m) return -1;
+		while (i < m && keys[i] == null) i++;
+		if (i == m) i = -1;
+		return i;
 	}
 }
