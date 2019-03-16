@@ -10,6 +10,7 @@ public class THSepChainTest extends TestCase {
 	private ITablaHash<String, Integer> tabla;
 	private final int numeroEscenarios = 100;
 	private final int tamanoMax = 100;
+	//private int defaultSize = (n+1)/2;
 	
 	//int nEscenariosEliminar = numeroEscenarios/10; // Numero de escenarios en los que se probara el metodo
 	//int nEscenariosObtener = numeroEscenarios/10; // Maximo numero de escenarios enlos que probara el metodo obtener
@@ -48,7 +49,7 @@ public class THSepChainTest extends TestCase {
 			assertTrue("Escenario: " + n + " con tamanio inicial " + tamanoMax + ". El arreglo deberia tener tamano " + n, tabla.darTamano() == n);
 			
 			setUpEscenario(n, -1);
-			assertTrue("Escenario: " + n + " con tamanio inicial " + n/2 + ". El arreglo deberia tener tamano " + n, tabla.darTamano() == n);
+			assertTrue("Escenario: " + n + " con tamanio inicial " + (n+1)/2 + ". El arreglo deberia tener tamano " + n, tabla.darTamano() == n);
 		}
 	}
 	
@@ -58,20 +59,24 @@ public class THSepChainTest extends TestCase {
 	public void testDarTamano() {
 		for (int n = 1; n <= numeroEscenarios; n++) {
 			setUpEscenario(n, -1);
-			assertTrue("Escenario: " + n + " con tamanio inicial " + n/2 + ". El arreglo deberia tener " + n + " elementos."
+			assertTrue("Escenario: " + n + " con tamanio inicial " + (n+1)/2 + ". El arreglo deberia tener " + n + " elementos."
 						+ " Pero tiene " + tabla.darTamano(), tabla.darTamano() == n);
+			System.out.println("darTamano() funciona para el escenario " + "(" + n + ", " + (n/2) + ")");
 			
 			setUpEscenario(n, 1);
 			assertTrue("Escenario: " + n + " con tamanio inicial 1. El arreglo deberia tener " + n + " elementos."
 						+ " Pero tiene " + tabla.darTamano(), tabla.darTamano() == n);
+			System.out.println("darTamano() funciona para el escenario " + "(" + n + ", " + 1 + ")");
 			
 			setUpEscenario(n, 10);
 			assertTrue("Escenario: " + n + " con tamanio inicial 10. El arreglo deberia tener " + n + " elementos."
 						+ " Pero tiene " + tabla.darTamano(), tabla.darTamano() == n);
+			System.out.println("darTamano() funciona para el escenario " + "(" + n + ", " + 10 + ")");
 			
 			setUpEscenario(n, tamanoMax);
 			assertTrue("Escenario: " + n + " con tamanio inicial " + tamanoMax + ". El arreglo deberia tener " + n + " elementos."
 						+ " Pero tiene " + tabla.darTamano(), tabla.darTamano() == n);
+			System.out.println("darTamano() funciona para el escenario " + "(" + n + ", " + tamanoMax + ")");
 		}
 	}
 	
@@ -80,10 +85,11 @@ public class THSepChainTest extends TestCase {
 	 */
 	public void testGet() {
 		Integer[] tamanosInic = new Integer[] {-1, 1, 10, tamanoMax};// Arreglo con los tamanos iniciales de las tablas para cada escenario
-		for (int n = 1; n <= n; n++) {
-			
+		for (int n = 1; n <= numeroEscenarios; n++) {	
 			for (Integer tamano : tamanosInic) {
-				setUpEscenario(n, tamano);		
+				System.out.println("\n\nEntrando a probar get()  para el escenario N, m = " + n + ", " + tamano);
+				setUpEscenario(n, tamano);
+				
 				// Obtener los elementos
 				Integer valor;
 				for (int i = 0; i < n; i++) {
@@ -95,8 +101,11 @@ public class THSepChainTest extends TestCase {
 					assertTrue("Escenario: " + n + " de tamanio " + tamano + ". El arreglo deberia tener " + n + " elementos."
 							+ " Pero tiene " + tabla.darTamano(), tabla.darTamano() == n);
 				}
+				
+				System.out.println("get() funciona para el escenario " + "(" + n + ", " + tamano + ")");
 			}
 		}
+		System.out.println("get() funciona!\n");
 	}
 	
 	/**
@@ -118,10 +127,13 @@ public class THSepChainTest extends TestCase {
 				valor = tabla.get("Nuevo elemento " + i);
 				assertTrue("Escenario: " + n + ". Se espera que al conseguir el elemento recien colocado se obtenga " + i + 
 						", pero se obtiene " + (valor != null? "nulo": valor), valor != null && valor.equals(i));
+				System.out.println("put() funciona para el escenario " + "(" + n + ", " + (n/2) + "), agregando nuevos elementos");
 			}
 			// Comprobar que el tamanio de la tabla es el esperado
 			assertTrue("Escenario: " + n + ". El arreglo deberia tener " + (n + nAgregar) + " elementos."
 					+ " Pero tiene " + tabla.darTamano(), tabla.darTamano() == (n + nAgregar));
+			System.out.println("put() funciona para el escenario " + "(" + n + ", " + (n/2) + "), agregando nuevos elementos, Y identifica el tamanio adecuado");
+			
 			
 			// Modifica nAgregar/2 elementos existentes
 			for (int i = 0; i < nAgregar/2; i++) {
@@ -131,10 +143,12 @@ public class THSepChainTest extends TestCase {
 				valor = tabla.get("Nuevo elemento " + i);
 				assertTrue("Escenario: " + n + ". Se espera que al conseguir el elemento recien colocado se obtenga " + (-i) + 
 						", pero se obtiene " + (valor != null? "nulo": valor), valor == -i);
+				System.out.println("put() funciona para el escenario " + "(" + n + ", " + (n/2) + "), reemplazando elementos");
 			}
 			// Comprobar que no se cambio el tamanio del arreglo
 			assertTrue("Escenario: " + n + ". No debio cambiar de tamanio. El arreglo deberia tener " + (n + nAgregar) + " elementos."
 					+ " Pero tiene " + tabla.darTamano(), tabla.darTamano() == (n + nAgregar));
+			System.out.println("put() funciona para el escenario " + "(" + n + ", " + (n/2) + "), reemplazando elementos, Y identifica el tamanio adecuado");
 		}
 	}
 	

@@ -47,6 +47,7 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 
 	@Override
 	public void put(K key, V value) {
+		//System.out.println("Intentando hacer put de '" + key);
 		boolean existe = false;
 		
 		if ((n + 1.) / m > 0.75) rehash(2 * m); // Cambiado de lugar //TODO cambiar por algun primo
@@ -63,7 +64,7 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 		
 		keys[i] = key;
 		values[i] = value;
-		// TODO Auto-generated method stub	
+		//System.out.println("Agregado '" + key + "' en la posicion " + i);	
 	}
 
 
@@ -98,16 +99,15 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 	}
 
 	private int hash(K key){
-		return Math.abs(key.hashCode())%m;
-		//SE PUEDE HACER MEJOR PERO NO SUPE COMO
+		return (key.hashCode() & 0x7fffffff)%m;
 	}
 
 	private void rehash(int newM){
-		
+			/*System.out.println("///\nIntentando hacer rehash cuando n,m = " + n + "," + m);
 			Queue<K> llaves = new Queue<>();
 			Queue<V> valores = new Queue<>();
 			int contador =0;
-			for (int i = 0; i < m && contador<=n; i++) {
+			for (int i = 0; contador<n; i++) {
 				if(keys[i]!=null){
 					llaves.enqueue(keys[i]);
 					valores.enqueue(values[i]);
@@ -120,10 +120,22 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 			for (int i = 0; i < llaves.size(); i++) {
 				nueva.put(llaves.dequeue(), valores.dequeue());
 			}
-			// Cambiado: no se estaba haciendo nada con esta nueva lista hasta aca, asi que se agregaron las siguientes 3 lineas
-			this.keys = nueva.keys;
-			this.values = nueva.values;
-			this.m = newM;
+			*/
+		int contador = 0;
+		LinProbTH<K, V> nueva = new LinProbTH<>(newM); 
+		for (int i = 0; contador < n; i++) {
+			if (keys[i] != null ) {
+				nueva.put(keys[i], values[i]);
+				contador += 1;
+			}
+			
+		}
+		
+		// Cambiado: no se estaba haciendo nada con esta nueva lista hasta aca, asi que se agregaron las siguientes 3 lineas
+		this.keys = nueva.keys;
+		this.values = nueva.values;
+		this.m = newM;
+		//System.out.println("Nuevo tamanio " + m +"//////");
 	}
 
 	public int darTamano(){
