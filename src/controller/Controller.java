@@ -72,9 +72,9 @@ public class Controller {
 			numeroDeCargas = loadMovingViolations(new String[] {"Moving_Violations_Issued_in_January_2018.json", 
 					    	     //"Moving_Violations_Issued_in_February_2018.json",
 					    	     //"Moving_Violations_Issued_in_March_2018.json",
-					    	     "Moving_Violations_Issued_in_April_2018.json",
-					    	     "Moving_Violations_Issued_in_May_2018.json",
-					    	     "Moving_Violations_Issued_in_June_2018.json"
+					    	     //"Moving_Violations_Issued_in_April_2018.json",
+					    	     //"Moving_Violations_Issued_in_May_2018.json",
+					    	     //"Moving_Violations_Issued_in_June_2018.json"
 					    	     });
 			semestreCargado = 1;
 		}
@@ -150,7 +150,7 @@ public class Controller {
 		public Iterator<String> iterator() {
 			return new Iterator<String>() {
 				public boolean hasNext() {
-					System.out.println("Entro a hasNext leyendo el caracter '" + (char)(lastReadChar) + "'");
+					//System.out.println("Entro a hasNext leyendo el caracter '" + (char)(lastReadChar) + "'");
 					return lastReadChar != ']' && lastReadChar != -1;
 				}
 				public String next() {return next2();}
@@ -176,7 +176,7 @@ public class Controller {
 		int contadorInf; // Cuenta numero de infracciones en cada archivo
 		try {
 			thLinProb = new LinProbTH<Integer, IArregloDinamico<VOMovingViolation>>(500000); // TODO quitar comentario
-			thSepChain = new SepChainTH<Integer, IArregloDinamico<VOMovingViolation>>(500000); // TODO quitar comentario
+			//thSepChain = new SepChainTH<Integer, IArregloDinamico<VOMovingViolation>>(500000); // TODO quitar comentario
 
 			for (String filePath : movingViolationsFilePaths) {
 				reader = new JReader(new File("data/"+filePath));
@@ -195,7 +195,7 @@ public class Controller {
 					valorAct.agregar(infraccionAct);
 					
 					thLinProb.put(infraccionAct.getAddressID(), valorAct); // TODO esta linea sobra o es necesaria?
-					thSepChain.put(infraccionAct.getAddressID(), valorAct); // Esta linea sobra o es necesaria
+					//thSepChain.put(infraccionAct.getAddressID(), valorAct); // Esta linea sobra o es necesaria
 					
 					contadorInf += 1;
 				}

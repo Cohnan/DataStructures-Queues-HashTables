@@ -75,14 +75,18 @@ public class VOMovingViolation {
 	 * @return addressID
 	 */
 	public int getAddressID() {
-		return Integer.parseInt(ADDRESS_ID);
+		String campo = ADDRESS_ID;
+		if (campo != null) return Integer.parseInt(campo);
+		else return -1;
 	}
 	
 	/**
 	 * @return streetsgeID
 	 */
 	public int getStreetsegID() {
-		return Integer.parseInt(STREETSEGID);
+		String campo = STREETSEGID;
+		if (campo != null) return Integer.parseInt(campo);
+		else return -1;
 	}
 
 	/**
@@ -103,14 +107,18 @@ public class VOMovingViolation {
 	 * @return penalty1 - 
 	 */
 	public double getPenalty1() {
-		return Double.parseDouble(PENALTY1);
+		String campo = PENALTY1;
+		if (campo != null) return Double.parseDouble(campo);
+		else return 0;
 	}
 	
 	/**
 	 * @return penalty2 - 
 	 */
 	public double getPenalty2() {
-		return Double.parseDouble(PENALTY2);
+		String campo = PENALTY1;
+		if (campo != null) return Double.parseDouble(campo);
+		else return 0;
 	}
 
 	/**
