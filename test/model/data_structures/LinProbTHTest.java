@@ -163,7 +163,7 @@ public class LinProbTHTest {
 		Integer valor;
 		int nEliminados;
 		
-		for (int n = 1; n <= numeroEscenarios; n++) {
+		for (int n = 0; n <= numeroEscenarios; n++) {
 			setUpEscenario(n, -1);
 			nEliminar = n;
 			nEliminados = 0;
@@ -171,7 +171,6 @@ public class LinProbTHTest {
 			// Eliminar nEliminar elementos
 			for (int i = 0; i < nEliminar; i++) {
 				valor = tabla.delete("Elemento " + i);
-						
 				// Verificar que se elimino el elemento correcto
 				assertTrue("Escenario: " + n + ". El dato esperado era: " + i
 						+ ", pero se obtuvo " + (valor != null? "nulo": valor), valor != null && valor.equals(i));

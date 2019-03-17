@@ -72,18 +72,40 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 
 	@Override
 	public V delete(K key) {
-
+		
+	System.out.println("Entró");	
+		
+		System.out.println("EMPIEZA");
+		
+		for (int i = 0; i < m; i++) {
+			
+			if(keys[i]!=null){
+				System.out.println("Índice " + (i));
+//				System.out.println("Llave " +  keys[i]);
+				System.out.println("Valor " + values[i]);
+//				System.out.println("Hash " + hash(keys[i]));
+			}
+		}
+		System.out.println("TERMINA");
+		
+		System.out.println("llave " + hash(key) + "value "+get(key));
+		System.out.println(keys[hash(key)]);
+		System.out.println(values[hash(key)]);
+		
 		for(int i = hash(key);keys[i] !=null; i = (i+1)%m){
 			if(key.equals(keys[i])){
-				keys[i] = null;
-				//No estoy seguro
 				V auxiliar = values[i];
-				values[i] = null;
+				int actual = i;
+				int siguiente = (actual+1)%m;
+				while(keys[siguiente]!=null){
+					keys[actual] = keys[siguiente];
+					values[actual] = values[siguiente];
+					actual = siguiente;
+					siguiente = (actual+1)%m;
+				}
 				n--;		
-				
-				//if (n/m <= 0.25 && m >= 2) rehash(m/2); // Evita que quede muy vacia
-				
 				return auxiliar;
+				
 			}
 		}
 		return null;
