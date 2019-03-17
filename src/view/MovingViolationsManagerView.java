@@ -13,8 +13,8 @@ public class MovingViolationsManagerView
 		System.out.println("---------ISIS 1206 - Estructuras de datos----------");
 		System.out.println("---------------------Taller 6----------------------");
 		System.out.println("0. Cargar datos de infracciones en movimiento");
-		System.out.println("1. Requerimiento 1a");
-		System.out.println("2. Requerimiento 1b");
+		System.out.println("1. Mostrar infracciones que terminaron en accidente dada una dirección (usando LinearProbingHT)");
+		System.out.println("2. Mostrar infracciones que terminaron en accidente dada una dirección (usando SeparateChainingHT)");
 		System.out.println("10. Cerrar programa");
 		System.out.println("Digite el numero de opcion para ejecutar la tarea, luego presione enter: (Ej., 1):");
 		

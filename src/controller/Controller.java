@@ -220,29 +220,32 @@ public class Controller {
 	}
 	
 	/**
-	 * TODO
+	 * Mostrar infracciones que terminaron en accidente dada una dirección (usando LinearProbingHT)
 	 * @param addressId
-	 * @return
+	 * @return ArregloDinamico con las infracciones deseadas, ordenadas cronologicamente
 	 */
-	public IArregloDinamico<VOMovingViolation> requerimiento1a(int addressId) {
-		IArregloDinamico<VOMovingViolation> general = thLinProb.get(addressId);
-		IArregloDinamico<VOMovingViolation> respuesta = new ArregloDinamico<VOMovingViolation>();
-		
-		for (VOMovingViolation infraccion : general) {
-			if (infraccion.getAccidentIndicator()) respuesta.agregar(infraccion);
-		}
-		
-		Sort.ordenarShellSort(respuesta, new VOMovingViolation.TicketIssueOrder());
-		return respuesta;
+	public IArregloDinamico<VOMovingViolation> requerimiento1LinProb(int addressId) {
+		return requerimiento1Auxiliar(addressId, thLinProb);
 	}
 	
 	/**
-	 * TODO
+	 * Mostrar infracciones que terminaron en accidente dada una dirección (usando SeparateChainingHT)
 	 * @param addressId
-	 * @return
+	 * @return ArregloDinamico con las infracciones deseadas, ordenadas cronologicamente
 	 */
-	public IArregloDinamico<VOMovingViolation> requerimiento1b(int addressId) {
-		IArregloDinamico<VOMovingViolation> general = thSepChain.get(addressId);
+	public IArregloDinamico<VOMovingViolation> requerimiento1SepChain(int addressId) {
+		return requerimiento1Auxiliar(addressId, thSepChain);
+	}
+	
+	/**
+	 * Metodo auxiliar para mostrar infracciones que terminaron en accidente dada una dirección
+	 * usando una de las tablas de hash existentes
+	 * @param addressId
+	 * @param thAUsar tabla de hash que se usará para extraer la información
+	 * @return ArregloDinamico con las infracciones deseadas, ordenadas cronologicamente
+	 */
+	public IArregloDinamico<VOMovingViolation> requerimiento1Auxiliar(int addressId, ITablaHash<Integer, IArregloDinamico<VOMovingViolation>> thAUsar) {
+		IArregloDinamico<VOMovingViolation> general = thAUsar.get(addressId);
 		IArregloDinamico<VOMovingViolation> respuesta = new ArregloDinamico<VOMovingViolation>();
 		
 		for (VOMovingViolation infraccion : general) {
@@ -277,12 +280,12 @@ public class Controller {
 			case 1:
 				// Requerimiento 1a
 				view.printMessage("Ingrese un AddressID: ");
-				view.printMovingViolationsReq1(requerimiento1a(sc.nextInt()));
+				view.printMovingViolationsReq1(requerimiento1LinProb(sc.nextInt()));
 				break;
 			case 2:
 				// Requerimiento 1b
 				view.printMessage("Ingrese un AddressID: ");
-				view.printMovingViolationsReq1(requerimiento1b(sc.nextInt()));
+				view.printMovingViolationsReq1(requerimiento1SepChain(sc.nextInt()));
 				break;
 			case 10:	
 				fin=true;
