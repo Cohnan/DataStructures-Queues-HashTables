@@ -8,6 +8,7 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 	private Nodo<K>[] nodos;
 	private int m;
 	private int n;
+	private final int factorCarga = 5;
 
 	public SepChainTH (int pM) {
 		m = pM;		
@@ -45,7 +46,7 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 						return nActual.darObjeto();
 					}
 				//}
-				// En caso de necesitar pasar al siguiente nodo del arreglo
+				// En caso de necesitar pasar al siguiente hash del arreglo
 				while(contador<n){
 					iActual++;
 					if(nodos[iActual]!=null){
@@ -57,7 +58,6 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 				return null;
 			}
 		};
-		// TODO Auto-generated method stub		
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 		rehash();
 		nodos[i] = new Nodo<K>(key, value);
 */
-		if ((n + 1.) / m >= 5) rehash();
+		if ((n + 1.) / m >= factorCarga) rehash();
 		
 		int i = hash(key);
 		Nodo<K> nodoPrevio = nodos[i];
@@ -109,8 +109,6 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 				return (V)x.darValor();
 			}
 		}
-
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -139,17 +137,15 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 				}
 			}
 		}
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	private int hash(K key){
-		return Math.abs(key.hashCode())%m;
-		//SE PUEDE HACER MEJOR PERO NO SUPE COMO
+		return (key.hashCode() & 0x7fffffff)%m;
 	}
 
 	private void rehash(){
-		if(n/m >=5){
+		
 			Queue<K> llaves = new Queue<>();
 			Queue<V> valores = new Queue<>();
 			Iterator<K> iterador = iterator();
@@ -169,9 +165,6 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 			
 			this.m = 2*m;
 			this.nodos = nueva.nodos;
-		}
-
-
 	}
 
 	public int darTamano(){
