@@ -70,8 +70,8 @@ public class Controller {
 		if(n == 1)
 		{
 			numeroDeCargas = loadMovingViolations(new String[] {"Moving_Violations_Issued_in_January_2018.json", 
-					    	     "Moving_Violations_Issued_in_February_2018.json",
-					    	     "Moving_Violations_Issued_in_March_2018.json",
+					    	     //"Moving_Violations_Issued_in_February_2018.json",
+					    	     //"Moving_Violations_Issued_in_March_2018.json",
 					    	     //"Moving_Violations_Issued_in_April_2018.json",
 					    	     //"Moving_Violations_Issued_in_May_2018.json",
 					    	     //"Moving_Violations_Issued_in_June_2018.json"
@@ -97,6 +97,7 @@ public class Controller {
 	}
 	
 	private class JReader implements Iterable<String> {
+		// Clase hecha simulando el comportamiento de los Readers
 		private BufferedReader bufReader;
 		private int lastReadChar;
 		
@@ -175,8 +176,8 @@ public class Controller {
 		
 		int contadorInf; // Cuenta numero de infracciones en cada archivo
 		try {
-			thLinProb = new LinProbTH<Integer, IArregloDinamico<VOMovingViolation>>(500000); // TODO quitar comentario
-			//thSepChain = new SepChainTH<Integer, IArregloDinamico<VOMovingViolation>>(500000); // TODO quitar comentario
+			thLinProb = new LinProbTH<Integer, IArregloDinamico<VOMovingViolation>>(600000); 
+			thSepChain = new SepChainTH<Integer, IArregloDinamico<VOMovingViolation>>(600000);
 
 			for (String filePath : movingViolationsFilePaths) {
 				reader = new JReader(new File("data/"+filePath));
@@ -195,7 +196,7 @@ public class Controller {
 					valorAct.agregar(infraccionAct);
 					
 					thLinProb.put(infraccionAct.getAddressID(), valorAct); // TODO esta linea sobra o es necesaria?
-					//thSepChain.put(infraccionAct.getAddressID(), valorAct); // Esta linea sobra o es necesaria
+					thSepChain.put(infraccionAct.getAddressID(), valorAct);
 					
 					contadorInf += 1;
 				}
