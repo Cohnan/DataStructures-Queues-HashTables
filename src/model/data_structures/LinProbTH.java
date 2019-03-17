@@ -74,7 +74,7 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 	public void put(K key, V value) {
 		boolean existe = false;
 		//Verificar si se debe hace rehash antes de insertar
-		if ((n + 1.) / m > factorCarga) rehash(2 * m); //TODO cambiar por algun primo
+		if ((n + 1.) / m > factorCarga) rehash(); //TODO cambiar por algun primo
 
 		int i;
 		// Recorre la tabla desde del hash buscando la siguiente posición vacía
@@ -161,11 +161,12 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 	/**
 	 * Método para Rehash la tabla en caso de exceder el factor de carga
 	 */
-	private void rehash(int newM){
+	private void rehash(){
 		numRehash++;
 		int contador = 0;
 		//Se crea una nueva tabla con la capacidad dada por parámetro
-		LinProbTH<K, V> nueva = new LinProbTH<>(newM); 
+		int numPrimo = siguientePrimo(m+1);
+		LinProbTH<K, V> nueva = new LinProbTH<>(numPrimo); 
 		for (int i = 0; contador < n; i++) {
 			// Se guardan todos los valores de la tabla actual
 			if (keys[i] != null ) {
@@ -176,7 +177,7 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 
 		this.keys = nueva.keys;
 		this.values = nueva.values;
-		this.m = newM;
+		this.m = nueva.m;
 	}
 	/**
 	 * Método para obtener el número de llaves en la tabla

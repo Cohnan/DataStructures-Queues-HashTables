@@ -204,13 +204,14 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 			//delete(actual);
 		}
 		//Se crea una nueva tabla aumentando la capacidad
-		SepChainTH<K, V> nueva = new SepChainTH<>(m*2);
+		int numPrimo = siguientePrimo(m+1);
+		SepChainTH<K, V> nueva = new SepChainTH<>(numPrimo);
 		for (int i = 0; i < n; i++) {
 			nueva.put(llaves.dequeue(), valores.dequeue());
 		}
 
 		//Se actualiza la tabla actual
-		this.m = 2*m;
+		this.m = nueva.m;
 		this.nodos = nueva.nodos;
 	}
 
