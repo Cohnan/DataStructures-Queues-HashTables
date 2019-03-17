@@ -23,6 +23,8 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 	 */
 	private final int factorCarga = 5;
 
+	
+	private int numRehash = 0;
 
 	/**
 	 * Constructor
@@ -187,6 +189,7 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 	 */
 	private void rehash(){
 
+		numRehash++;
 		// Estructura auxiliar para guardar la información de la tabla
 		Queue<K> llaves = new Queue<>();
 		Queue<V> valores = new Queue<>();
@@ -226,5 +229,28 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 		if (i == m) i = -1;
 		return i;
 	}
+	
+	
+	
+	/**
+	 * Método para encontrar el siguiente número primo
+	 */
+	public int siguientePrimo(int numero){
+		  int contador;
+		  numero++;   
+		  while(true){
+		    contador = 0;
+		    for(int i = 2; i <= Math.sqrt(numero); i ++){
+		      if(numero % i == 0)  contador++;
+		    }
+		    if(contador == 0)
+		      return numero;
+		    else{
+		      numero++;
+		      continue;
+		    }
+		  }
+		}
+
 
 }

@@ -27,6 +27,8 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 	 * Factor de carga máxmio
 	 */
 	private final double factorCarga = 0.75; 
+	
+	private int numRehash = 0;
 
 	/**
 	 * Constructor
@@ -160,6 +162,7 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 	 * Método para Rehash la tabla en caso de exceder el factor de carga
 	 */
 	private void rehash(int newM){
+		numRehash++;
 		int contador = 0;
 		//Se crea una nueva tabla con la capacidad dada por parámetro
 		LinProbTH<K, V> nueva = new LinProbTH<>(newM); 
@@ -193,4 +196,27 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 		if (i == m) i = -1;
 		return i;
 	}
+	
+
+	/**
+	 * Método para encontrar el siguiente número primo
+	 */
+	public int siguientePrimo(int numero){
+		  int contador;
+		  numero++;   
+		  while(true){
+		    contador = 0;
+		    for(int i = 2; i <= Math.sqrt(numero); i ++){
+		      if(numero % i == 0)  contador++;
+		    }
+		    if(contador == 0)
+		      return numero;
+		    else{
+		      numero++;
+		      continue;
+		    }
+		  }
+		}
+
+	
 }
