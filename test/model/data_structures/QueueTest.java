@@ -1,12 +1,12 @@
 package model.data_structures;
 
+import static org.junit.Assert.*;
+
 import java.util.Iterator;
 
-import junit.framework.TestCase;
-import model.data_structures.Queue;
+import org.junit.Test;
 
-public class QueueTest extends TestCase{
-
+public class QueueTest {
 
 	private Queue<String> cola;
 
@@ -34,6 +34,7 @@ public class QueueTest extends TestCase{
 	/**
 	 * Prueba el constructor
 	 */
+	@Test
 	public void testQueue() {
 		setUpEscenario0();
 		assertEquals("La cola deber�a estar vac�a", true,cola.isEmpty());
@@ -44,6 +45,7 @@ public class QueueTest extends TestCase{
 	/**
 	 * Prueba el metodo iterator()
 	 */
+	@Test
 	public void testIterator() {
 		setUpEscenario2();
 
@@ -62,6 +64,7 @@ public class QueueTest extends TestCase{
 	/**
 	 * Prueba el metodo isEmpty()
 	 */
+	@Test
 	public void testIsEmpty() {
 		for (int i = 0; i <= 2; i++) {
 			if 		(i == 0) {
@@ -83,6 +86,7 @@ public class QueueTest extends TestCase{
 	/**
 	 * Prueba el metodo size
 	 */
+	@Test
 	public void testSize() {
 		for (int i = 0; i <= 2; i++) {
 			if 		(i == 0) {
@@ -104,6 +108,7 @@ public class QueueTest extends TestCase{
 	/**
 	 * Prueba el metodo Enqueue
 	 */
+	@Test
 	public void testEnqueue() {
 		for (int i = 0; i <= 1; i++) {
 			if 		(i == 0) {
@@ -134,6 +139,7 @@ public class QueueTest extends TestCase{
 	/**
 	 * Prueba el metodo dequeue
 	 */
+	@Test
 	public void testDequeue() {
 		for (int i = 0; i < 2; i++) {
 			if 		(i == 0) {
@@ -158,7 +164,6 @@ public class QueueTest extends TestCase{
 				assertTrue("La pila deberia deberia tener 0 elementos.", cola.size() == 0);
 				assertTrue("El elemento eliminado no es el esperado.", dato.equals("Elemento 2"));
 			}
-
 		}
 	}
 }

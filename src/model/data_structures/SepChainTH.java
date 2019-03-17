@@ -18,12 +18,13 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 	public Iterator<K> iterator() {
 
 		return new Iterator<K>() {
-			int iActual = 0;
-			Nodo<K> nActual = null;
-			int contador = 0;
+			int iActual = -1; // Ultima posicion vista
+			Nodo<K> nActual = null; // Ultimo nodo visto
+			int contador = 0; // Cuantos ha visto hasta ahora
+			
 			@Override
 			public boolean hasNext() {
-				if (contador>=n) return false;
+				if (contador >= n) return false;
 				return true;
 			}
 			@Override
@@ -31,13 +32,20 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 				if(contador>=n){
 					return null;
 				}
-				if(nActual!=null){
+				if (contador == 0) {
+					iActual = siguienteNoNulo(iActual + 1);
+					nActual = nodos[iActual];
+					contador += 1;
+					return nActual.darObjeto();
+				}
+				//if(nActual!=null){
 					if(nActual.darSiguiente()!=null){
 						contador ++;
 						nActual = nActual.darSiguiente();
 						return nActual.darObjeto();
 					}
-				}
+				//}
+				// En caso de necesitar pasar al siguiente nodo del arreglo
 				while(contador<n){
 					iActual++;
 					if(nodos[iActual]!=null){
@@ -54,7 +62,7 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 
 	@Override
 	public void put(K key, V value) {
-
+/*
 		int i = hash(key);
 		for(Nodo<K> x = nodos[i];x!=null;x = x.darSiguiente()){
 			if(key.equals(x.darObjeto())){
@@ -66,8 +74,30 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 		n++;
 		rehash();
 		nodos[i] = new Nodo<K>(key, value);
-
-		// TODO Auto-generated method stu
+*/
+		if ((n + 1.) / m >= 5) rehash();
+		
+		int i = hash(key);
+		Nodo<K> nodoPrevio = nodos[i];
+		
+		if (nodoPrevio == null) {
+			n++;
+			nodos[i] = new Nodo<K>(key, value);
+			return;
+		}
+		
+		while (true) {
+			if(key.equals(nodoPrevio.darObjeto())){
+				nodoPrevio.cambiarValor(value);
+				return;
+			}
+			
+			if (nodoPrevio.darSiguiente() == null) break;
+			nodoPrevio = nodoPrevio.darSiguiente();
+		} 
+		
+		n++;
+		nodoPrevio.cambiarSiguiente(new Nodo<K>(key, value));
 	}
 
 	@Override
@@ -123,20 +153,22 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 			Queue<K> llaves = new Queue<>();
 			Queue<V> valores = new Queue<>();
 			Iterator<K> iterador = iterator();
-			K actual = iterador.next();
+			K actual;
 			
-			while(iterador.hasNext()){
+			while (iterador.hasNext()){   // Cambiar el lugar donde se definia actual fue fundamental
+				actual = iterador.next();
 				llaves.enqueue(actual);
 				valores.enqueue(get(actual));
-				delete(actual);
-				actual = iterador.next();
+				//delete(actual);
 			}
-		
+			if (llaves.size() != n) System.out.println("Se esta comiendo alguna llaveee!!");
 			SepChainTH<K, V> nueva = new SepChainTH<>(m*2);
-			for (int i = 0; i < llaves.size(); i++) {
+			for (int i = 0; i < n; i++) {
 				nueva.put(llaves.dequeue(), valores.dequeue());
 			}
-
+			
+			this.m = 2*m;
+			this.nodos = nueva.nodos;
 		}
 
 
@@ -144,6 +176,18 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 
 	public int darTamano(){
 		return n;
+	}
+	
+	/**
+	 * Busca el siguiente indice de la lista que no sea nula a partir y contando i
+	 * @param i Se asume entre 0 y m-1
+	 * @return El siguiente indice no nulo
+	 */
+	private int siguienteNoNulo(int i) {
+		if (i >= m) return -1;
+		while (i < m && nodos[i] == null) i++;
+		if (i == m) i = -1;
+		return i;
 	}
 
 }
