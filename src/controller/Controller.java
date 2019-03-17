@@ -96,7 +96,7 @@ public class Controller {
 		return numeroDeCargas;
 	}
 	
-	private class JReader implements Iterable<String> {
+	public class JReader implements Iterable<String> {
 		// Clase hecha simulando el comportamiento de los Readers
 		private BufferedReader bufReader;
 		private int lastReadChar;
