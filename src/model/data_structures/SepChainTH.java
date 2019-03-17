@@ -5,8 +5,18 @@ import java.util.Iterator;
 
 public class SepChainTH<K, V> implements ITablaHash<K, V> {
 
+	
+	/**
+	 * Arreglo que guarda los nodos (cada nodo tiene una llave y un valor)
+	 */
 	private Nodo<K>[] nodos;
+	/**
+	 * Capacidad de la tabla
+	 */
 	private int m;
+	/**
+	 * Número de llaves en la tabla
+	 */
 	private int n;
 	private final int factorCarga = 5;
 
