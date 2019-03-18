@@ -2,11 +2,14 @@ package model.data_structures;
 
 import static org.junit.Assert.*;
 
+import java.util.Comparator;
+
 import javax.swing.text.html.HTMLDocument.Iterator;
 
 import org.junit.Test;
 
 import controller.LoadMovingViolations;
+import model.util.Sort;
 import model.vo.VOMovingViolation;
 
 public class TestTablaHashConInfracciones {
@@ -153,5 +156,25 @@ public class TestTablaHashConInfracciones {
 
 	}
 
-	
+	/**
+	 * Genera un arreglo de numeros entre 0 y max (sin incluirlo) de tamaño tamano
+	 * @para max Numero maximo deseado 
+	 * @param tamano
+	 * @return El arreglo deseado
+	 */
+	private IArregloDinamico<Integer> generarListaOrdenada(int max, int tamano) {
+		IArregloDinamico<Integer> posiciones  =  new ArregloDinamico<>(tamano);
+		// Generar posiciones
+		for (int i = 0; i < tamano; i++){
+			posiciones.agregar((int)(Math.random() * (max-1)));
+		}
+		
+		while(!Sort.isSorted(posiciones, Comparator.<Integer>naturalOrder())) {
+			Sort.ordenarShellSort(posiciones, Comparator.<Integer>naturalOrder()); //Rapido para listas parcialmente ordenadas
+			for (int i = 0; i < tamano-1; i++) {
+				while (posiciones.darObjeto(i) == posiciones.darObjeto(i+1)) posiciones.cambiarEnPos(i,(int)(Math.random() * max - 1));
+			}
+		}
+		return posiciones;
+	}
 }
