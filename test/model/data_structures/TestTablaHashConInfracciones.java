@@ -34,13 +34,13 @@ public class TestTablaHashConInfracciones {
 	 */
 	private void setUpEscenario(int nTabla, int capInicial ) {
 		if (nTabla == 1) {
-			thLinProb = new LinProbTH<Integer, IArregloDinamico<VOMovingViolation>>(capInicial);
 			thSepChain = null;
+			thLinProb = new LinProbTH<Integer, IArregloDinamico<VOMovingViolation>>(capInicial);
 			
 			this.nCargas = LoadMovingViolations.loadMovingViolations(1, new ITablaHash[] {thLinProb});
 		} else if (nTabla == 2) {
-			thSepChain = new SepChainTH<Integer, IArregloDinamico<VOMovingViolation>>(capInicial);
 			thLinProb = null;
+			thSepChain = new SepChainTH<Integer, IArregloDinamico<VOMovingViolation>>(capInicial);
 			
 			this.nCargas = LoadMovingViolations.loadMovingViolations(1, new ITablaHash[] {thSepChain});
 		}
