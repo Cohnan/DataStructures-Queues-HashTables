@@ -160,11 +160,14 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 		Nodo<K> actual = nodos[i];
 		if(actual == null)return null;
 		// En caso de ser el nodo que esta en la posici�n hash de la lista
+		
+		System.out.println(key);
+		System.out.println(actual.darObjeto());
 		if(actual.darObjeto().equals(key)){
 			auxiliar = (V) nodos[i].darValor();
 			nodos[i] = actual.darSiguiente();
 			n--;
-			if (n / m <= factorCargaMin) rehash(siguientePrimo(n/2));
+//			if (n / m <= factorCargaMin) rehash(siguientePrimo(n/2));
 			return auxiliar;
 		}
 		else{
