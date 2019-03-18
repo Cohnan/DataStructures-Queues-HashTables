@@ -17,7 +17,7 @@ public class TestTablaHashConInfracciones {
 	 * Atributos
 	 */
 	
-	int totalConsultas = 10000;
+	int totalConsultas = 1000;
 	
 	int[] tamaniosIniciales = new int[] {1, 10, 100, 1000, 10000, 100000, 600000};
 	
@@ -51,9 +51,9 @@ public class TestTablaHashConInfracciones {
 	 */
 	@Test
 	public void testLinProb() {
-		for (int tamanioInicial : tamaniosIniciales) {
-			setUpEscenario(1, tamanioInicial);
-			System.out.println("\nProbando linProb con un tamaÃ±o inicial de " + tamanioInicial);
+//		for (int tamanioInicial : tamaniosIniciales) {
+			setUpEscenario(1, 10000);
+			System.out.println("\nProbando linProb con un tamaÃ±o inicial de " + 10000);
 			
 			int total = 0;
 			Integer[] arreglo = new Integer[totalConsultas];
@@ -61,44 +61,45 @@ public class TestTablaHashConInfracciones {
 			for(Integer s:nCargas){
 				total+=s;
 			}
+			
+			System.out.println("Total de datos" + total);
 	
 			//Inicialmente
-			System.out.println("Factor de Carga LinProb" + thLinProb.factorCarga);
-	
-	
-			//Verificaciï¿½n
-			System.out.println(thLinProb.numRehash);
+			System.out.println("Número de Llaves " + thLinProb.n);
+			System.out.println("Capacidad del arreglo " + thLinProb.m);
 	
 			//Consultas GET
 			int contador  = 0;
-		
+			int numAleatorio = 0;
 			
 			while(contador<totalConsultas){
-				int numAleatorio = (int) (Math.random()*total);
+				numAleatorio = (int) (Math.random()*thLinProb.n);
+//				System.out.println(numAleatorio);
 				java.util.Iterator<Integer> iterador = thLinProb.iterator();
 				Integer llaves = iterador.next();
 				int numero = 0;
 				while(numero<= numAleatorio){
 					llaves = iterador.next();
 					numero++;		}
+				
 				arreglo[contador] = llaves;
 				contador ++;
 			}
 			
+	
 			long startTime = System.currentTimeMillis();
 			for (int i = 0; i < arreglo.length; i++) {
 				thLinProb.get(arreglo[i]);
 			}
-	
-			
 			long endTime = System.currentTimeMillis();
 			long totalTime = endTime-startTime;
-			System.out.println(thLinProb.factorCarga);
-			System.out.println(thLinProb.numRehash);
-			System.out.println(totalTime);
-			System.out.println(thLinProb.n);
-			System.out.println(thLinProb.m);
-		}
+			
+			//Resultados
+			System.out.println("Número de Rehash's " + thLinProb.numRehash);
+			System.out.println("Tiempo Total de Get's " + totalTime);
+			System.out.println("Número de Llaves " + thLinProb.n);
+			System.out.println("Capacidad Final del Arreglo " + thLinProb.m);
+//		}
 	}
 
 	
@@ -107,53 +108,55 @@ public class TestTablaHashConInfracciones {
 	 */
 	@Test
 	public void testSepChain() {
-		setUpEscenario(2, 600000);
-		System.out.println("\nProbando sepChain con un tamaÃ±o inicial de " + 600000);
-		
-		int total = 0;
-		Integer[] arreglo = new Integer[totalConsultas];
-
-		for(Integer s:nCargas){
-			total+=s;
-		}
-
-		//Inicialmente
-		System.out.println("Factor de Carga SepChain" + thSepChain.factorCarga);
-
-
-		//Verificaciï¿½n
-		System.out.println(thSepChain.numRehash);
-
-		//Consultas GET
-		int contador  = 0;
+//		for (int tamanioInicial : tamaniosIniciales) {
+			setUpEscenario(2, 10000);
+			System.out.println("\nProbando setpChain con un tamaÃ±o inicial de " + 10000);
+			
+			int total = 0;
+			Integer[] arreglo = new Integer[totalConsultas];
 	
-		
-		while(contador<totalConsultas){
-			int numAleatorio = (int) (Math.random()*total);
-			java.util.Iterator<Integer> iterador = thSepChain.iterator();
-			Integer llaves = iterador.next();
-			int numero = 0;
-			while(numero<= numAleatorio){
-				llaves = iterador.next();
-				numero++;		}
-			arreglo[contador] = llaves;
-			contador ++;
-		}
-		
-		long startTime = System.currentTimeMillis();
-		for (int i = 0; i < arreglo.length; i++) {
-			thSepChain.get(arreglo[i]);
-		}
-
-		
-		long endTime = System.currentTimeMillis();
-		long totalTime = endTime-startTime;
-		System.out.println(thSepChain.factorCarga);
-		System.out.println(thSepChain.numRehash);
-		System.out.println(totalTime);
-		System.out.println(thSepChain.n);
-		System.out.println(thSepChain.m);
-
+			for(Integer s:nCargas){
+				total+=s;
+			}
+			
+			System.out.println("Total de datos" + total);
+	
+			//Inicialmente
+			System.out.println("Número de Llaves " + thSepChain.n);
+			System.out.println("Capacidad del arreglo " + thSepChain.m);
+	
+			//Consultas GET
+			int contador  = 0;
+			int numAleatorio = 0;
+			
+			while(contador<totalConsultas){
+				numAleatorio = (int) (Math.random()*thSepChain.n);
+//				System.out.println(numAleatorio);
+				java.util.Iterator<Integer> iterador = thSepChain.iterator();
+				Integer llaves = iterador.next();
+				int numero = 0;
+				while(numero<= numAleatorio){
+					llaves = iterador.next();
+					numero++;		}
+				
+				arreglo[contador] = llaves;
+				contador ++;
+			}
+			
+	
+			long startTime = System.currentTimeMillis();
+			for (int i = 0; i < arreglo.length; i++) {
+				thSepChain.get(arreglo[i]);
+			}
+			long endTime = System.currentTimeMillis();
+			long totalTime = endTime-startTime;
+			
+			//Resultados
+			System.out.println("Número de Rehash's " + thSepChain.numRehash);
+			System.out.println("Tiempo Total de Get's " + totalTime);
+			System.out.println("Número de Llaves " + thSepChain.n);
+			System.out.println("Capacidad Final del Arreglo " + thSepChain.m);
+//		}
 	}
 
 	/**
