@@ -105,7 +105,7 @@ public class TestTablaHashConInfracciones {
 	@Test
 	public void testSepChain() {
 		setUpEscenario(2, 600000);
-		System.out.println("\nProbando linProb con un tamaño inicial de " + 600000);
+		System.out.println("\nProbando sepChain con un tamaño inicial de " + 600000);
 		
 		int total = 0;
 		Integer[] arreglo = new Integer[totalConsultas];
