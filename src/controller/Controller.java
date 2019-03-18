@@ -39,7 +39,6 @@ public class Controller {
 	
 	private static SepChainTH<Integer, IArregloDinamico<VOMovingViolation>> thSepChain;
 	
-	private static HashMap<Integer, IArregloDinamico<VOMovingViolation>> prueba;
 	/*
 	 * Constructor
 	 */
@@ -48,7 +47,6 @@ public class Controller {
 
 		thLinProb = null;
 		thSepChain = null;
-		prueba = null;
 	}
 	
 	/*
