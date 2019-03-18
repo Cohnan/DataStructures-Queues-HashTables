@@ -166,13 +166,13 @@ public class TestTablaHashConInfracciones {
 		IArregloDinamico<Integer> posiciones  =  new ArregloDinamico<>(tamano);
 		// Generar posiciones
 		for (int i = 0; i < tamano; i++){
-			posiciones.agregar((int)(Math.random() * (max-1)));
+			posiciones.agregar((int)(Math.random() * max));
 		}
 		
 		while(!Sort.isSorted(posiciones, Comparator.<Integer>naturalOrder())) {
-			Sort.ordenarShellSort(posiciones, Comparator.<Integer>naturalOrder()); //Rapido para listas parcialmente ordenadas
+			Sort.ordenarShellSort(posiciones); //Rapido para listas parcialmente ordenadas
 			for (int i = 0; i < tamano-1; i++) {
-				while (posiciones.darObjeto(i) == posiciones.darObjeto(i+1)) posiciones.cambiarEnPos(i,(int)(Math.random() * max - 1));
+				while (posiciones.darObjeto(i) == posiciones.darObjeto(i+1)) posiciones.cambiarEnPos(i,(int)(Math.random() * max));
 			}
 		}
 		return posiciones;
