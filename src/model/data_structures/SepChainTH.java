@@ -13,18 +13,18 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 	/**
 	 * Capacidad de la tabla
 	 */
-	private int m;
+	public int m;  // Made public for the tests
 	/**
-	 * Número de llaves en la tabla
+	 * Nï¿½mero de llaves en la tabla
 	 */
-	private int n;
+	public int n;  // Made public for the tests
 	/**
-	 * Factor de carga (n/m) máximo
+	 * Factor de carga (n/m) mï¿½ximo
 	 */
-	private final int factorCarga = 5;
+	public final int factorCarga = 5; // Made public for the tests
 
 	
-	private int numRehash = 0;
+	public int numRehash = 0; // Made public for the tests
 
 	/**
 	 * Constructor
@@ -47,7 +47,7 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 			int contador = 0; // Cuantos ha visto hasta ahora
 
 			/**
-			 * Retorna si existe o no un elemento después del actual
+			 * Retorna si existe o no un elemento despuï¿½s del actual
 			 */
 			@Override
 			public boolean hasNext() {
@@ -91,7 +91,7 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 
 
 	/**
-	 *Método para agregar una nueva llave y su valor
+	 *Mï¿½todo para agregar una nueva llave y su valor
 	 */
 	@Override
 	public void put(K key, V value) {
@@ -99,19 +99,19 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 		if ((n + 1.) / m >= factorCarga) rehash();
 
 
-		//Guarda el índice hash de la llave
+		//Guarda el ï¿½ndice hash de la llave
 		int i = hash(key);
 		//Se guarda el nodo previo
 		Nodo<K> nodoPrevio = nodos[i];
 
-		//Caso en el que la posición hash del arreglo este vacía
+		//Caso en el que la posiciï¿½n hash del arreglo este vacï¿½a
 		if (nodoPrevio == null) {
 			n++;
 			nodos[i] = new Nodo<K>(key, value);
 			return;
 		}
 
-		//Caso de que ya haya un elemento en la posición del arreglo, se agrega en una lista encadenada
+		//Caso de que ya haya un elemento en la posiciï¿½n del arreglo, se agrega en una lista encadenada
 		while (true) {
 			if(key.equals(nodoPrevio.darObjeto())){
 				nodoPrevio.cambiarValor(value);
@@ -122,19 +122,19 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 			nodoPrevio = nodoPrevio.darSiguiente();
 		} 
 
-		// Se aumenta el número de llaves y se cambia el siguiente
+		// Se aumenta el nï¿½mero de llaves y se cambia el siguiente
 		n++;
 		nodoPrevio.cambiarSiguiente(new Nodo<K>(key, value));
 	}
 
 	/**
-	 * Método para obtenter un valor a partir de una llave
+	 * Mï¿½todo para obtenter un valor a partir de una llave
 	 */
 	@Override
 	public V get(K key) {
 
 
-		//Se busca el valor con el método hash
+		//Se busca el valor con el mï¿½todo hash
 		int i = hash(key);
 		for(Nodo<K> x = nodos[i];x!=null;x = x.darSiguiente()){
 			if(key.equals(x.darObjeto())){
@@ -145,7 +145,7 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 	}
 
 	/**
-	 * Método para eliminar una llave
+	 * Mï¿½todo para eliminar una llave
 	 */
 	@Override
 	public V delete(K key) {
@@ -155,7 +155,7 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 		V auxiliar = null;
 		Nodo<K> actual = nodos[i];
 		if(actual == null)return null;
-		// En caso de ser el nodo que esta en la posición hash de la lista
+		// En caso de ser el nodo que esta en la posiciï¿½n hash de la lista
 		if(actual.darObjeto().equals(key)){
 			auxiliar = (V) nodos[i].darValor();
 			nodos[i] = actual.darSiguiente();
@@ -190,7 +190,7 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 	private void rehash(){
 
 		numRehash++;
-		// Estructura auxiliar para guardar la información de la tabla
+		// Estructura auxiliar para guardar la informaciï¿½n de la tabla
 		Queue<K> llaves = new Queue<>();
 		Queue<V> valores = new Queue<>();
 		Iterator<K> iterador = iterator();
@@ -234,7 +234,7 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 	
 	
 	/**
-	 * Método para encontrar el siguiente número primo
+	 * Mï¿½todo para encontrar el siguiente nï¿½mero primo
 	 */
 	public int siguientePrimo(int numero){
 		  int contador;

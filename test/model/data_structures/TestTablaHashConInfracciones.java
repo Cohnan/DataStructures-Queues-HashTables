@@ -23,10 +23,7 @@ public class TestTablaHashConInfracciones {
 	 * @param capInicial
 	 */
 	private void setUpEscenario(ITablaHash<Integer, IArregloDinamico<VOMovingViolation>> tabla, int capInicial ) {
-		thLinProb = new LinProbTH<Integer, IArregloDinamico<VOMovingViolation>>(capInicial); 
-		thSepChain = new SepChainTH<Integer, IArregloDinamico<VOMovingViolation>>(capInicial);
-		
-		this.nCargas = LoadMovingViolations.loadMovingViolations(1, new ITablaHash[] {thLinProb, thSepChain});
+		this.nCargas = LoadMovingViolations.loadMovingViolations(1, new ITablaHash[] {tabla});
 	}
 	
 	/**

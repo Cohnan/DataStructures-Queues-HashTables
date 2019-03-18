@@ -16,19 +16,19 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 	/**
 	 * Capacidad del arreglo
 	 */
-	private int m;
+	public int m; // Made public for the tests
 
 	/**
-	 * Número de Datos
+	 * Nï¿½mero de Datos
 	 */
-	private int n;
+	public int n; // Made public for the tests
 
 	/**
-	 * Factor de carga máxmio
+	 * Factor de carga mï¿½xmio
 	 */
-	private final double factorCarga = 0.75; 
+	public final double factorCarga = 0.75; // Made public for the tests 
 	
-	private int numRehash = 0;
+	public int numRehash = 0; // Made public for the tests
 
 	/**
 	 * Constructor
@@ -49,7 +49,7 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 			int iActual = siguienteNoNulo(0); // Guarda el indice del elemento a devolver -1 si no hay mas
 			@Override
 
-			//Método has next -> Si existe un elemento después o no
+			//Mï¿½todo has next -> Si existe un elemento despuï¿½s o no
 			public boolean hasNext() {
 				return (iActual != -1);
 			}
@@ -77,7 +77,7 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 		if ((n + 1.) / m > factorCarga) rehash(); //TODO cambiar por algun primo
 
 		int i;
-		// Recorre la tabla desde del hash buscando la siguiente posición vacía
+		// Recorre la tabla desde del hash buscando la siguiente posiciï¿½n vacï¿½a
 		for(i = hash(key); keys[i] !=null; i = (i+1)%m){
 			if(keys[i].equals(key)){
 				existe = true;
@@ -85,21 +85,21 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 			}
 		}
 
-		//Si no existía se aumenta en 1 el número de llaves
+		//Si no existï¿½a se aumenta en 1 el nï¿½mero de llaves
 		if(!existe)n++;
 
-		//Se asigna el valor de la llave en la posición 
+		//Se asigna el valor de la llave en la posiciï¿½n 
 		keys[i] = key;
-		//Se asigna el valor del valor en la posición
+		//Se asigna el valor del valor en la posiciï¿½n
 		values[i] = value;
 	}
 
 	/**
-	 * Método para buscar un valor de acuerdo a una llave
+	 * Mï¿½todo para buscar un valor de acuerdo a una llave
 	 */
 	@Override
 	public V get(K key) {
-		//Se recorren las llaver buscando la llave en cuestión
+		//Se recorren las llaver buscando la llave en cuestiï¿½n
 		for(int i = hash(key);keys[i]!=null; i = (i+1)%m){
 			if(key.equals(keys[i])){
 				//Al encontrarla se retorna el valor
@@ -112,14 +112,14 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 
 	@Override
 	/**
-	 * Método para eliminar una llave
+	 * Mï¿½todo para eliminar una llave
 	 */
 	public V delete(K key) {
 
 		if(key == null) return null;
 
 
-		//Encontrar la posición de i
+		//Encontrar la posiciï¿½n de i
 		int i = hash(key);
 		while(!key.equals(keys[i])){
 			i = (i+1)%m;
@@ -145,13 +145,13 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 			i = (i+1)%m;
 		}
 
-		//Se reduce el número de llaves
+		//Se reduce el nï¿½mero de llaves
 		n--;
 		// Se devuelve el valor asociado a la llave eliminada
 		return respuesta;
 	}
 	/**
-	 * Hash -> Devuelve un número entre 0 y M-1
+	 * Hash -> Devuelve un nï¿½mero entre 0 y M-1
 	 */
 	private int hash(K key){
 		return (key.hashCode() & 0x7fffffff)%m;
@@ -159,12 +159,12 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 
 
 	/**
-	 * Método para Rehash la tabla en caso de exceder el factor de carga
+	 * Mï¿½todo para Rehash la tabla en caso de exceder el factor de carga
 	 */
 	private void rehash(){
 		numRehash++;
 		int contador = 0;
-		//Se crea una nueva tabla con la capacidad dada por parámetro
+		//Se crea una nueva tabla con la capacidad dada por parï¿½metro
 		int numPrimo = siguientePrimo(m+1);
 		LinProbTH<K, V> nueva = new LinProbTH<>(numPrimo); 
 		for (int i = 0; contador < n; i++) {
@@ -180,7 +180,7 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 		this.m = nueva.m;
 	}
 	/**
-	 * Método para obtener el número de llaves en la tabla
+	 * Mï¿½todo para obtener el nï¿½mero de llaves en la tabla
 	 */
 	public int darTamano(){
 		return n;
@@ -200,7 +200,7 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 	
 
 	/**
-	 * Método para encontrar el siguiente número primo
+	 * Mï¿½todo para encontrar el siguiente nï¿½mero primo
 	 */
 	public int siguientePrimo(int numero){
 		  int contador;
