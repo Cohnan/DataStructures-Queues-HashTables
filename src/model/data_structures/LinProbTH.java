@@ -26,7 +26,11 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 	/**
 	 * Factor de carga m�xmio
 	 */
-	public final double factorCarga = 0.75; // Made public for the tests 
+	public final double factorCargaMax = 0.75; // Made public for the tests
+	/**
+	 * Factor de carga minimo
+	 */
+	public final double factorCargaMin = 0.25; // Made public for the tests
 	
 	public int numRehash = 0; // Made public for the tests
 
@@ -74,7 +78,7 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 	public void put(K key, V value) {
 		boolean existe = false;
 		//Verificar si se debe hace rehash antes de insertar
-		if ((n + 1.) / m > factorCarga) rehash(); //TODO cambiar por algun primo
+		if ((n + 1.) / m > factorCargaMax) rehash(siguientePrimo(2*m));
 
 		int i;
 		// Recorre la tabla desde del hash buscando la siguiente posici�n vac�a
@@ -147,6 +151,7 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 
 		//Se reduce el n�mero de llaves
 		n--;
+		if (n / m <= factorCargaMin) rehash(siguientePrimo((int)(m*factorCargaMin)));
 		// Se devuelve el valor asociado a la llave eliminada
 		return respuesta;
 	}
@@ -161,12 +166,11 @@ public class LinProbTH<K, V> implements ITablaHash<K, V> {
 	/**
 	 * M�todo para Rehash la tabla en caso de exceder el factor de carga
 	 */
-	private void rehash(){
+	private void rehash(int newM){
 		numRehash++;
 		int contador = 0;
 		//Se crea una nueva tabla con la capacidad dada por par�metro
-		int numPrimo = siguientePrimo(m+1);
-		LinProbTH<K, V> nueva = new LinProbTH<>(numPrimo); 
+		LinProbTH<K, V> nueva = new LinProbTH<>(newM); 
 		for (int i = 0; contador < n; i++) {
 			// Se guardan todos los valores de la tabla actual
 			if (keys[i] != null ) {

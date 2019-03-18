@@ -62,7 +62,7 @@ public class TestTablaHashConInfracciones {
 				total+=s;
 			}
 			
-			System.out.println("Total de datos" + total);
+			System.out.println("Total de datos " + total);
 	
 			//Inicialmente
 			System.out.println("N�mero de Llaves " + thLinProb.n);
@@ -70,16 +70,16 @@ public class TestTablaHashConInfracciones {
 			
 			// Consultas Get
 			IArregloDinamico<Integer> listaPosiciones= generarListaOrdenada(thLinProb.n, totalConsultas);
-			long startTime = System.currentTimeMillis();
+			long startTime = System.nanoTime();
 			for (int i = 0; i < listaPosiciones.darTamano(); i++) {
 				thLinProb.get(listaPosiciones.darObjeto(i));
 			}
-			long endTime = System.currentTimeMillis();
+			long endTime = System.nanoTime();
 			long totalTime = endTime-startTime;
 			
 			//Resultados
 			System.out.println("N�mero de Rehash's " + thLinProb.numRehash);
-			System.out.println("Tiempo Total de Get's " + totalTime);
+			System.out.println("Tiempo Total de Get's " + totalTime + " nanosegundos");
 			System.out.println("N�mero de Llaves " + thLinProb.n);
 			System.out.println("Capacidad Final del Arreglo " + thLinProb.m);
 		}
@@ -110,16 +110,16 @@ public class TestTablaHashConInfracciones {
 	
 			// Consultas Get
 			IArregloDinamico<Integer> listaPosiciones= generarListaOrdenada(thSepChain.n, totalConsultas);
-			long startTime = System.currentTimeMillis();
+			long startTime = System.nanoTime();
 			for (int i = 0; i < listaPosiciones.darTamano(); i++) {
 				thSepChain.get(listaPosiciones.darObjeto(i));
 			}
-			long endTime = System.currentTimeMillis();
+			long endTime = System.nanoTime();
 			long totalTime = endTime-startTime;
 			
 			//Resultados
 			System.out.println("N�mero de Rehash's " + thSepChain.numRehash);
-			System.out.println("Tiempo Total de Get's " + totalTime);
+			System.out.println("Tiempo Total de Get's " + totalTime + " nanosegundos");
 			System.out.println("N�mero de Llaves " + thSepChain.n);
 			System.out.println("Capacidad Final del Arreglo " + thSepChain.m);
 		}

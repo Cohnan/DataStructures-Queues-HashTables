@@ -21,7 +21,11 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 	/**
 	 * Factor de carga (n/m) m�ximo
 	 */
-	public final int factorCarga = 5; // Made public for the tests
+	public final int factorCargaMax = 5; // Made public for the tests
+	/**
+	 * Factor de carga (n/m) míximo
+	 */
+	public final double factorCargaMin = 0.5; // Made public for the tests
 
 	
 	public int numRehash = 0; // Made public for the tests
@@ -96,7 +100,7 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 	@Override
 	public void put(K key, V value) {
 		//Verificar en caso de tener que hacer rehash
-		if ((n + 1.) / m >= factorCarga) rehash();
+		if ((n + 1.) / m >= factorCargaMax) rehash(siguientePrimo(2*m));
 
 
 		//Guarda el �ndice hash de la llave
@@ -160,6 +164,7 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 			auxiliar = (V) nodos[i].darValor();
 			nodos[i] = actual.darSiguiente();
 			n--;
+			if (n / m <= factorCargaMin) rehash(siguientePrimo(n/2));
 			return auxiliar;
 		}
 		else{
@@ -169,6 +174,7 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 					auxiliar = (V) actual.darSiguiente().darValor();
 					actual.cambiarSiguiente(actual.darSiguiente().darSiguiente());
 					n--;
+					if (n / m <= factorCargaMin) rehash(siguientePrimo(n/2));
 					return auxiliar;
 				}
 				actual = actual.darSiguiente();
@@ -187,7 +193,7 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 	/**
 	 * Rehash de la tabla en caso de que exceda el factor de carga
 	 */
-	private void rehash(){
+	private void rehash(int newM){
 
 		numRehash++;
 		// Estructura auxiliar para guardar la informaci�n de la tabla
@@ -204,8 +210,7 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 			//delete(actual);
 		}
 		//Se crea una nueva tabla aumentando la capacidad
-		int numPrimo = siguientePrimo(m+1);
-		SepChainTH<K, V> nueva = new SepChainTH<>(numPrimo);
+		SepChainTH<K, V> nueva = new SepChainTH<>(newM);
 		for (int i = 0; i < n; i++) {
 			nueva.put(llaves.dequeue(), valores.dequeue());
 		}
