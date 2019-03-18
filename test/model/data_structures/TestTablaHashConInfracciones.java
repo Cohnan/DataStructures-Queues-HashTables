@@ -17,9 +17,9 @@ public class TestTablaHashConInfracciones {
 	 * Atributos
 	 */
 	
-	int totalConsultas = 1000;
+	int totalConsultas = 10000;
 	
-	int[] tamaniosIniciales = new int[] {1, 10, 100, 1000, 10000, 100000, 600000};
+	int[] tamaniosIniciales = new int[] {1, 10, 100, 1000, 10000};
 	
 	private static LinProbTH<Integer, IArregloDinamico<VOMovingViolation>> thLinProb;
 	
@@ -51,12 +51,12 @@ public class TestTablaHashConInfracciones {
 	 */
 	@Test
 	public void testLinProb() {
-//		for (int tamanioInicial : tamaniosIniciales) {
-			setUpEscenario(1, 10000);
-			System.out.println("\nProbando linProb con un tamaÃ±o inicial de " + 10000);
+		for (int tamanioInicial : tamaniosIniciales) {
+			setUpEscenario(1, tamanioInicial);
+			System.out.println("\nProbando linProb con un tamaÃ±o inicial de " + tamanioInicial);
 			
 			int total = 0;
-			Integer[] arreglo = new Integer[totalConsultas];
+			//Integer[] arreglo = new Integer[totalConsultas];
 	
 			for(Integer s:nCargas){
 				total+=s;
@@ -65,41 +65,24 @@ public class TestTablaHashConInfracciones {
 			System.out.println("Total de datos" + total);
 	
 			//Inicialmente
-			System.out.println("Número de Llaves " + thLinProb.n);
+			System.out.println("Nï¿½mero de Llaves " + thLinProb.n);
 			System.out.println("Capacidad del arreglo " + thLinProb.m);
-	
-			//Consultas GET
-			int contador  = 0;
-			int numAleatorio = 0;
 			
-			while(contador<totalConsultas){
-				numAleatorio = (int) (Math.random()*thLinProb.n);
-//				System.out.println(numAleatorio);
-				java.util.Iterator<Integer> iterador = thLinProb.iterator();
-				Integer llaves = iterador.next();
-				int numero = 0;
-				while(numero<= numAleatorio){
-					llaves = iterador.next();
-					numero++;		}
-				
-				arreglo[contador] = llaves;
-				contador ++;
-			}
-			
-	
+			// Consultas Get
+			IArregloDinamico<Integer> listaPosiciones= generarListaOrdenada(thLinProb.n, totalConsultas);
 			long startTime = System.currentTimeMillis();
-			for (int i = 0; i < arreglo.length; i++) {
-				thLinProb.get(arreglo[i]);
+			for (int i = 0; i < listaPosiciones.darTamano(); i++) {
+				thLinProb.get(listaPosiciones.darObjeto(i));
 			}
 			long endTime = System.currentTimeMillis();
 			long totalTime = endTime-startTime;
 			
 			//Resultados
-			System.out.println("Número de Rehash's " + thLinProb.numRehash);
+			System.out.println("Nï¿½mero de Rehash's " + thLinProb.numRehash);
 			System.out.println("Tiempo Total de Get's " + totalTime);
-			System.out.println("Número de Llaves " + thLinProb.n);
+			System.out.println("Nï¿½mero de Llaves " + thLinProb.n);
 			System.out.println("Capacidad Final del Arreglo " + thLinProb.m);
-//		}
+		}
 	}
 
 	
@@ -108,9 +91,9 @@ public class TestTablaHashConInfracciones {
 	 */
 	@Test
 	public void testSepChain() {
-//		for (int tamanioInicial : tamaniosIniciales) {
-			setUpEscenario(2, 10000);
-			System.out.println("\nProbando setpChain con un tamaÃ±o inicial de " + 10000);
+		for (int tamanioInicial : tamaniosIniciales) {
+			setUpEscenario(2, tamanioInicial);
+			System.out.println("\nProbando setpChain con un tamaÃ±o inicial de " + tamanioInicial);
 			
 			int total = 0;
 			Integer[] arreglo = new Integer[totalConsultas];
@@ -122,41 +105,24 @@ public class TestTablaHashConInfracciones {
 			System.out.println("Total de datos" + total);
 	
 			//Inicialmente
-			System.out.println("Número de Llaves " + thSepChain.n);
+			System.out.println("Nï¿½mero de Llaves " + thSepChain.n);
 			System.out.println("Capacidad del arreglo " + thSepChain.m);
 	
-			//Consultas GET
-			int contador  = 0;
-			int numAleatorio = 0;
-			
-			while(contador<totalConsultas){
-				numAleatorio = (int) (Math.random()*thSepChain.n);
-//				System.out.println(numAleatorio);
-				java.util.Iterator<Integer> iterador = thSepChain.iterator();
-				Integer llaves = iterador.next();
-				int numero = 0;
-				while(numero<= numAleatorio){
-					llaves = iterador.next();
-					numero++;		}
-				
-				arreglo[contador] = llaves;
-				contador ++;
-			}
-			
-	
+			// Consultas Get
+			IArregloDinamico<Integer> listaPosiciones= generarListaOrdenada(thSepChain.n, totalConsultas);
 			long startTime = System.currentTimeMillis();
-			for (int i = 0; i < arreglo.length; i++) {
-				thSepChain.get(arreglo[i]);
+			for (int i = 0; i < listaPosiciones.darTamano(); i++) {
+				thSepChain.get(listaPosiciones.darObjeto(i));
 			}
 			long endTime = System.currentTimeMillis();
 			long totalTime = endTime-startTime;
 			
 			//Resultados
-			System.out.println("Número de Rehash's " + thSepChain.numRehash);
+			System.out.println("Nï¿½mero de Rehash's " + thSepChain.numRehash);
 			System.out.println("Tiempo Total de Get's " + totalTime);
-			System.out.println("Número de Llaves " + thSepChain.n);
+			System.out.println("Nï¿½mero de Llaves " + thSepChain.n);
 			System.out.println("Capacidad Final del Arreglo " + thSepChain.m);
-//		}
+		}
 	}
 
 	/**
@@ -172,12 +138,8 @@ public class TestTablaHashConInfracciones {
 			posiciones.agregar((int)(Math.random() * max));
 		}
 		
-		while(!Sort.isSorted(posiciones, Comparator.<Integer>naturalOrder())) {
-			Sort.ordenarShellSort(posiciones); //Rapido para listas parcialmente ordenadas
-			for (int i = 0; i < tamano-1; i++) {
-				while (posiciones.darObjeto(i) == posiciones.darObjeto(i+1)) posiciones.cambiarEnPos(i,(int)(Math.random() * max));
-			}
-		}
+		Sort.ordenarShellSort(posiciones); //Rapido para listas parcialmente ordenadas
+
 		return posiciones;
 	}
 }

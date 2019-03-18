@@ -27,9 +27,9 @@ public class LoadMovingViolations {
 			numeroDeCargas = loadMovingViolations(new String[] {"Moving_Violations_Issued_in_January_2018.json", 
 					    	     "Moving_Violations_Issued_in_February_2018.json",
 					    	     "Moving_Violations_Issued_in_March_2018.json",
-//					    	     "Moving_Violations_Issued_in_April_2018.json",
-//					    	     "Moving_Violations_Issued_in_May_2018.json",
-//					    	     "Moving_Violations_Issued_in_June_2018.json"
+					    	     "Moving_Violations_Issued_in_April_2018.json",
+					    	     "Moving_Violations_Issued_in_May_2018.json",
+					    	     "Moving_Violations_Issued_in_June_2018.json"
 					    	     }, paraCarga);
 		}
 		else if(n == 2)
