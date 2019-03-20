@@ -10,7 +10,7 @@ public class SepChainTHTest {
 	 * Atributos 
 	 */
 	private ITablaHash<String, Integer> tabla;
-	private final int numeroEscenarios = 100;
+	private final int numeroEscenarios = 1000;
 	private final int tamanoMax = 100;
 	
 	/*
