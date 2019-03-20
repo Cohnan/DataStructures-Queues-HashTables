@@ -118,7 +118,7 @@ public class SepChainTHTest {
 		Integer valor;
 		
 		for (int n = 1; n <= numeroEscenarios; n++) {
-			setUpEscenario(n, -1);
+			setUpEscenario(n, 1);
 			nAgregar = 2*n;
 			
 			// Agrega nAgregar elementos nuevos
@@ -164,7 +164,7 @@ public class SepChainTHTest {
 		int nEliminados;
 		
 		for (int n = 1; n <= numeroEscenarios; n++) {
-			setUpEscenario(n, -1);
+			setUpEscenario(n, 1);
 			nEliminar = n;
 			nEliminados = 0;
 			

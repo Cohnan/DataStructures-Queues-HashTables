@@ -25,7 +25,7 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 	/**
 	 * Factor de carga (n/m) míximo
 	 */
-	public final double factorCargaMin = 0.5; // Made public for the tests
+	public final double factorCargaMin = 0.25; // Made public for the tests
 
 	
 	public int numRehash = 0; // Made public for the tests
@@ -161,23 +161,21 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 		if(actual == null)return null;
 		// En caso de ser el nodo que esta en la posici�n hash de la lista
 		
-		System.out.println(key);
-		System.out.println(actual.darObjeto());
 		if(actual.darObjeto().equals(key)){
 			auxiliar = (V) nodos[i].darValor();
 			nodos[i] = actual.darSiguiente();
 			n--;
-//			if (n / m <= factorCargaMin) rehash(siguientePrimo(n/2));
+			if (n / m < factorCargaMin) rehash(siguientePrimo(m/2));
 			return auxiliar;
 		}
 		else{
 			//Si no se debe recorrer la lista encadenada buscando la llave
 			while(actual.darSiguiente()!=null){
-				if(actual.darSiguiente().equals(key)){
+				if(actual.darSiguiente().darObjeto().equals(key)){
 					auxiliar = (V) actual.darSiguiente().darValor();
 					actual.cambiarSiguiente(actual.darSiguiente().darSiguiente());
 					n--;
-					if (n / m <= factorCargaMin) rehash(siguientePrimo(n/2));
+					if (n / m < factorCargaMin) rehash(siguientePrimo(m/2));
 					return auxiliar;
 				}
 				actual = actual.darSiguiente();
@@ -212,6 +210,7 @@ public class SepChainTH<K, V> implements ITablaHash<K, V> {
 			valores.enqueue(get(actual));
 			//delete(actual);
 		}
+		//System.out.println(llaves.size() + " vs esperado: " + n);
 		//Se crea una nueva tabla aumentando la capacidad
 		SepChainTH<K, V> nueva = new SepChainTH<>(newM);
 		for (int i = 0; i < n; i++) {
